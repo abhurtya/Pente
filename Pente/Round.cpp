@@ -71,6 +71,8 @@ bool Round::checkForEndOfRound() {
 
 bool Round::checkForWin(char symbol, Player* currentPlayer) {
 
+    bool hasWon = false;
+
     std::pair<int, int> lastMove = currentPlayer->getLocation();
     int x = lastMove.first;
     int y = lastMove.second;
@@ -87,13 +89,24 @@ bool Round::checkForWin(char symbol, Player* currentPlayer) {
         count += checkDirection(x, y, -dx, -dy, symbol);
 
         if (count >= 5) {
-            return true;
+            hasWon = true;
+            std::cout << (currentPlayer == humanPlayer ? "Human wins!" : "Computer wins!") << "--due to 5 in a row" << std::endl;
+
         }
+    }
+
+    if (currentPlayer == humanPlayer && humanCaptures >= 5) {
+        std::cout << "Human wins!--due to 5 captures of computer stones";
+        hasWon = true;
+    }
+    else if (currentPlayer == computerPlayer && computerCaptures >= 5) {
+        std::cout << "Computer wins!--due to 5 captures of your stones";
+        hasWon = true;
     }
                 
            
 
-    return false;
+    return hasWon;
 }
 
 int Round::checkDirection(int x, int y, int dx, int dy, char symbol) {
@@ -210,23 +223,19 @@ std::pair<int,int> Round::play() {
     while (!checkForEndOfRound()) {
         takeTurn(currentPlayer, currentSymbol);
 
+        if (checkForCapture(currentSymbol, currentPlayer)) {
+            
+            updateScore();
+        }
+
         if (checkForWin(currentSymbol, currentPlayer)) {
-            std::cout << "Player " << currentSymbol << " wins the round!\n";
+            //std::cout << "Player " << currentSymbol << " wins the round!\n";
             updateScore();
 
             return std::make_pair(humanPoints, computerPoints);
         }
 
-        if (checkForCapture(currentSymbol,currentPlayer)) {
-            /*
-            if (currentPlayer == humanPlayer) {
-                ++humanCaptures;
-            }
-            else {
-                ++computerCaptures;
-            }*/
-            updateScore();
-        }
+        
 
         // Swap current player and symbol
 
