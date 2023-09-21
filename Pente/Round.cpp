@@ -8,10 +8,10 @@
 Round::Round(Player* human, Player* computer) {
     humanPlayer = human;
     computerPlayer = computer;
-    humanPoints = 0;
+    /*humanPoints = 0;
     computerPoints = 0;
     humanCaptures = 0;
-    computerCaptures = 0;
+    computerCaptures = 0;*/
 }
 
 
@@ -89,22 +89,15 @@ bool Round::checkForWin(char symbol, Player* currentPlayer) {
         count += checkDirection(x, y, -dx, -dy, symbol);
 
         if (count >= 5) {
+            std::cout << currentPlayer->getPlayerType() << " wins!--due to 5 in a row" << std::endl;
             hasWon = true;
-            std::cout << (currentPlayer == humanPlayer ? "Human wins!" : "Computer wins!") << "--due to 5 in a row" << std::endl;
-
         }
     }
 
-    if (currentPlayer == humanPlayer && humanCaptures >= 5) {
-        std::cout << "Human wins!--due to 5 captures of computer stones";
+    if (currentPlayer->getCaptures() >= 5) {
+        std::cout << currentPlayer->getPlayerType() << " wins!--due to 5 captures of opponent stones" << std::endl;
         hasWon = true;
     }
-    else if (currentPlayer == computerPlayer && computerCaptures >= 5) {
-        std::cout << "Computer wins!--due to 5 captures of your stones";
-        hasWon = true;
-    }
-                
-           
 
     return hasWon;
 }
@@ -147,14 +140,16 @@ bool Round::checkForCapture(char symbol, Player* currentPlayer) {
 
         if (checkForCaptureDirection(x, y, dx, dy, symbol, capture1, capture2)) {
             capture = true;
+
+            currentPlayer->addCaptures();
             if (currentPlayer == humanPlayer) {
-                ++humanCaptures;
+               
                 std::cout << "Nice, Human with symbol " << symbol << " captured a pair of stones at:" << char('A' + capture1.second) << (capture1.first + 1)
                     << " and " << char('A' + capture2.second) << (capture2.first + 1) << "!\n";
 
             }
             else {
-                ++computerCaptures;
+                
                 std::cout << "Damn, Computer with symbol " << symbol << " captured a pair of your stones at:" << char('A' + capture1.second) << (capture1.first + 1)
                     << " and " << char('A' + capture2.second) << (capture2.first + 1) << "!\n";
             }
@@ -199,7 +194,11 @@ bool Round::checkForCaptureDirection(int x, int y, int dx, int dy, char symbol, 
     return false;
 }
 
-void Round::updateScore() {
+void Round::updateScore( int points, Player* currentPlayer) {
+
+   currentPlayer == humanPlayer ? humanPoints+=points : humanPoints += points;
+   
+
     
 }
 
@@ -225,12 +224,11 @@ std::pair<int,int> Round::play() {
 
         if (checkForCapture(currentSymbol, currentPlayer)) {
             
-            updateScore();
+            //updateScore();
         }
 
         if (checkForWin(currentSymbol, currentPlayer)) {
-            //std::cout << "Player " << currentSymbol << " wins the round!\n";
-            updateScore();
+            //updateScore();
 
             return std::make_pair(humanPoints, computerPoints);
         }
