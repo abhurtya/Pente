@@ -20,10 +20,7 @@ private:
     Board board;
     Player* humanPlayer;
     Player* computerPlayer;
-    int humanPoints;
-    int computerPoints;
-    /*int humanCaptures;
-    int computerCaptures;*/
+  
 
     char determineFirstPlayer();
     void takeTurn(Player* currentPlayer, char symbol);

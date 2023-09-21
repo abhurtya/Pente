@@ -19,7 +19,7 @@ char Round::determineFirstPlayer() {
     char firstPlayerSymbol;
     // Initialized as true for first round, in the future it will be false for all instances
     static bool isFirstRound = true;
-    bool isTossRequired = isFirstRound || (humanPoints == computerPoints);
+    bool isTossRequired = isFirstRound || (humanPlayer->getPoints() == computerPlayer->getPoints());
 
     if (isTossRequired) {
 
@@ -43,7 +43,7 @@ char Round::determineFirstPlayer() {
         isFirstRound = false;  // Reset for future rounds
     }
     else {
-        firstPlayerSymbol = (humanPoints > computerPoints) ? 'H' : 'C';
+        firstPlayerSymbol = ((humanPlayer->getPoints()) > (computerPlayer->getPoints())) ? 'H' : 'C';
         std::cout << ((firstPlayerSymbol == 'H') ? "You have more points. You will play first." : "Computer has more points. Computer will play first.") << std::endl;
     }
 
@@ -90,6 +90,9 @@ bool Round::checkForWin(char symbol, Player* currentPlayer) {
 
         if (count >= 5) {
             std::cout << currentPlayer->getPlayerType() << " wins!--due to 5 in a row" << std::endl;
+
+           // 5 points to the player with 5 in a row
+            currentPlayer->addPoints(5);
             hasWon = true;
         }
     }
@@ -142,24 +145,14 @@ bool Round::checkForCapture(char symbol, Player* currentPlayer) {
             capture = true;
 
             currentPlayer->addCaptures();
-            if (currentPlayer == humanPlayer) {
-               
-                std::cout << "Nice, Human with symbol " << symbol << " captured a pair of stones at:" << char('A' + capture1.second) << (capture1.first + 1)
-                    << " and " << char('A' + capture2.second) << (capture2.first + 1) << "!\n";
+            currentPlayer->addPoints(1);
 
-            }
-            else {
-                
-                std::cout << "Damn, Computer with symbol " << symbol << " captured a pair of your stones at:" << char('A' + capture1.second) << (capture1.first + 1)
-                    << " and " << char('A' + capture2.second) << (capture2.first + 1) << "!\n";
-            }
-
-            
+            std::cout << currentPlayer->getPlayerType()<<" with symbol " << symbol << " captured a pair of"
+                <<opponentSymbol<<" stones at : " << char('A' + capture1.second) << (capture1.first + 1)
+                << " and " << char('A' + capture2.second) << (capture2.first + 1) << "!\n";
+   
         }
     }
-
-    
-
     return capture;
 }
 
@@ -196,9 +189,7 @@ bool Round::checkForCaptureDirection(int x, int y, int dx, int dy, char symbol, 
 
 void Round::updateScore( int points, Player* currentPlayer) {
 
-   currentPlayer == humanPlayer ? humanPoints+=points : humanPoints += points;
    
-
     
 }
 
@@ -230,10 +221,8 @@ std::pair<int,int> Round::play() {
         if (checkForWin(currentSymbol, currentPlayer)) {
             //updateScore();
 
-            return std::make_pair(humanPoints, computerPoints);
+            return std::make_pair(humanPlayer->getPoints(), computerPlayer->getPoints());
         }
-
-        
 
         // Swap current player and symbol
 
@@ -245,9 +234,8 @@ std::pair<int,int> Round::play() {
             currentPlayer = humanPlayer;
             
         }
-        //currentPlayer = (currentPlayer == humanPlayer) ? computerPlayer : humanPlayer;
         currentSymbol = (currentSymbol == 'W') ? 'B' : 'W';
     }
 
-    return std::make_pair(humanPoints, computerPoints);
+    return std::make_pair(humanPlayer->getPoints(), computerPlayer->getPoints());
 }
