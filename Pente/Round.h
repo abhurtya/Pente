@@ -20,6 +20,7 @@ private:
     Board board;
     Player* humanPlayer;
     Player* computerPlayer;
+    bool endRound = false;
   
 
     char determineFirstPlayer();

@@ -1,5 +1,7 @@
 
 #include "Round.h"
+#include "FileWriter.h"
+
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
@@ -8,10 +10,7 @@
 Round::Round(Player* human, Player* computer) {
     humanPlayer = human;
     computerPlayer = computer;
-    /*humanPoints = 0;
-    computerPoints = 0;
-    humanCaptures = 0;
-    computerCaptures = 0;*/
+    
 }
 
 
@@ -59,14 +58,35 @@ void Round::takeTurn(Player* currentPlayer, char symbol) {
     int x = location.first;
     int y = location.second;
 
-    board.setCell(x, y, symbol);
-    
+    board.setCell(x, y, symbol);  
     board.displayBoard();
+
+    std::string userInput;
+    std::cout << "Enter 'quit' to save & exit game, or press any other key to continue: ";
+    std::cin >> userInput;
+
+    if (userInput == "quit") {
+        FileWriter writer;
+
+
+        std::string nextPlayer = (currentPlayer->getPlayerType() == "Human") ? "Computer" : "Human";
+        std::string nextPlayerStone = (symbol == 'W') ? "White" : "Black";
+        if (writer.saveGame(&board, humanPlayer, computerPlayer, nextPlayer, nextPlayerStone)) {
+            std::cout << "Game saved successfully!" << std::endl;
+            //mark endRound member flag true
+            endRound = true;
+
+        }
+        else {
+            std::cout << "Failed to save the game." << std::endl;
+        }
+
+    }
 }
 
 bool Round::checkForEndOfRound() {
     
-    return false;
+    return endRound;
 }
 
 bool Round::checkForWin(char symbol, Player* currentPlayer) {
@@ -210,8 +230,10 @@ std::pair<int,int> Round::play() {
     }
 
 
-    while (!checkForEndOfRound()) {
+    do  {
         takeTurn(currentPlayer, currentSymbol);
+
+
 
         if (checkForCapture(currentSymbol, currentPlayer)) {
             
@@ -235,7 +257,7 @@ std::pair<int,int> Round::play() {
             
         }
         currentSymbol = (currentSymbol == 'W') ? 'B' : 'W';
-    }
+    } while (!checkForEndOfRound());
 
     return std::make_pair(humanPlayer->getPoints(), computerPlayer->getPoints());
 }

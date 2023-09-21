@@ -17,7 +17,7 @@ void Human::play(Board& board) {
             continue;
         }
 
-         column = std::toupper(input[0]);  
+        column = std::toupper(input[0]);  
         row = std::stoi(input.substr(1));
 
         if (column < 'A' || column > 'S' || row < 1 || row > 19) {
