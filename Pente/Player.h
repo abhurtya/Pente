@@ -8,8 +8,8 @@ public:
     virtual ~Player() {}
 
     // Pure virtual function
-    virtual void play(Board& board) = 0;  
-    virtual std::pair<int, int> getLocation() const = 0; 
+    virtual void play(Board& board) = 0;
+    virtual std::pair<int, int> getLocation() const = 0;
     virtual std::string getPlayerType() const = 0;
 
     int getPoints() const { return points; }
@@ -17,6 +17,8 @@ public:
 
     void addPoints(int p) { points += p; }
     void addCaptures() { captures++; }
+    void setPoints(int p) { points = p; }
+    void setCaptures(int c) { captures = c; }
 
 private:
     int points = 0;

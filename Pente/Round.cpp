@@ -10,7 +10,13 @@
 Round::Round(Player* human, Player* computer) {
     humanPlayer = human;
     computerPlayer = computer;
-    
+}
+
+Round::Round(Player* human, Player* computer, const Board& loadedBoard) {
+    humanPlayer = human;
+    computerPlayer = computer;
+    board = loadedBoard;
+
 }
 
 
@@ -58,7 +64,7 @@ void Round::takeTurn(Player* currentPlayer, char symbol) {
     int x = location.first;
     int y = location.second;
 
-    board.setCell(x, y, symbol);  
+    board.setCell(x, y, symbol);
     board.displayBoard();
 
     std::string userInput;
@@ -85,7 +91,7 @@ void Round::takeTurn(Player* currentPlayer, char symbol) {
 }
 
 bool Round::checkForEndOfRound() {
-    
+
     return endRound;
 }
 
@@ -111,7 +117,7 @@ bool Round::checkForWin(char symbol, Player* currentPlayer) {
         if (count >= 5) {
             std::cout << currentPlayer->getPlayerType() << " wins!--due to 5 in a row" << std::endl;
 
-           // 5 points to the player with 5 in a row
+            // 5 points to the player with 5 in a row
             currentPlayer->addPoints(5);
             hasWon = true;
         }
@@ -167,10 +173,10 @@ bool Round::checkForCapture(char symbol, Player* currentPlayer) {
             currentPlayer->addCaptures();
             currentPlayer->addPoints(1);
 
-            std::cout << currentPlayer->getPlayerType()<<" with symbol " << symbol << " captured a pair of"
-                <<opponentSymbol<<" stones at : " << char('A' + capture1.second) << (capture1.first + 1)
+            std::cout << currentPlayer->getPlayerType() << " with symbol " << symbol << " captured a pair of"
+                << opponentSymbol << " stones at : " << char('A' + capture1.second) << (capture1.first + 1)
                 << " and " << char('A' + capture2.second) << (capture2.first + 1) << "!\n";
-   
+
         }
     }
     return capture;
@@ -193,27 +199,27 @@ bool Round::checkForCaptureDirection(int x, int y, int dx, int dy, char symbol, 
 
     char opponentSymbol = (symbol == 'W') ? 'B' : 'W';
     if (first == opponentSymbol && second == opponentSymbol && third == symbol) {
-        
-            // Capture the pair
-            board.setCell(x + dx, y + dy, '*');
-            board.setCell(x + 2 * dx, y + 2 * dy, '*');
 
-            //updating them so that parent function can access them
-            capture1 = std::make_pair(x + dx, y + dy);
-            capture2 = std::make_pair(x + 2 * dx, y + 2 * dy);
-            return true;
-        
+        // Capture the pair
+        board.setCell(x + dx, y + dy, '*');
+        board.setCell(x + 2 * dx, y + 2 * dy, '*');
+
+        //updating them so that parent function can access them
+        capture1 = std::make_pair(x + dx, y + dy);
+        capture2 = std::make_pair(x + 2 * dx, y + 2 * dy);
+        return true;
+
     }
     return false;
 }
 
-void Round::updateScore( int points, Player* currentPlayer) {
+void Round::updateScore(int points, Player* currentPlayer) {
 
-   
-    
+
+
 }
 
-std::pair<int,int> Round::play() {
+std::pair<int, int> Round::play() {
 
     /*board.displayBoard();*/
 
@@ -230,13 +236,13 @@ std::pair<int,int> Round::play() {
     }
 
 
-    do  {
+    do {
         takeTurn(currentPlayer, currentSymbol);
 
 
 
         if (checkForCapture(currentSymbol, currentPlayer)) {
-            
+
             //updateScore();
         }
 
@@ -250,14 +256,22 @@ std::pair<int,int> Round::play() {
 
         if (currentPlayer == humanPlayer) {
             currentPlayer = computerPlayer;
-            
+
         }
         else {
             currentPlayer = humanPlayer;
-            
+
         }
         currentSymbol = (currentSymbol == 'W') ? 'B' : 'W';
     } while (!checkForEndOfRound());
+
+    return std::make_pair(humanPlayer->getPoints(), computerPlayer->getPoints());
+}
+
+
+std::pair<int, int> Round::resume(Player* currentPlayer, char currentSymbol) {
+
+    //TODO: implement resume LOGIC
 
     return std::make_pair(humanPlayer->getPoints(), computerPlayer->getPoints());
 }

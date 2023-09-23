@@ -12,8 +12,9 @@
 class Round {
 public:
     Round(Player* human, Player* computer);
-    std::pair<int,int> play();
-    std::pair<int, int> resume();
+    Round(Player* human, Player* computer, const Board& loadedBoard);
+    std::pair<int, int> play();
+    std::pair<int, int> resume(Player* currentPlayer, char currentSymbol);
 
 
 private:
@@ -21,7 +22,7 @@ private:
     Player* humanPlayer;
     Player* computerPlayer;
     bool endRound = false;
-  
+
 
     char determineFirstPlayer();
     void takeTurn(Player* currentPlayer, char symbol);
@@ -34,4 +35,3 @@ private:
     bool checkForCaptureDirection(int x, int y, int dx, int dy, char symbol, std::pair<int, int>& capture1, std::pair<int, int>& capture2);
     void updateScore(int points, Player* currentPlayer);
 };
-

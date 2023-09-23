@@ -7,10 +7,10 @@
 #include "Board.h"
 
 class Tournament {
-public: 
+public:
 	Tournament(Player* human, Player* computer);
-	void startGame(); 
-	//void resumeGame();
+	void startGame();
+	void resumeGame(Board& loadedBoard, Player* human, Player* computer, std::string nextPlayerName, char nextPlayerSymbol);
 
 private:
 	Player* human;
