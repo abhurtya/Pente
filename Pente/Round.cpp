@@ -10,7 +10,13 @@
 Round::Round(Player* human, Player* computer) {
     humanPlayer = human;
     computerPlayer = computer;
-    
+}
+
+Round::Round(Player* human, Player* computer, const Board&loadedBoard) {
+    humanPlayer = human;
+    computerPlayer = computer;
+    board = loadedBoard;
+
 }
 
 
@@ -260,4 +266,10 @@ std::pair<int,int> Round::play() {
     } while (!checkForEndOfRound());
 
     return std::make_pair(humanPlayer->getPoints(), computerPlayer->getPoints());
+}
+
+
+std::pair<int, int> Round::resume(Player* currentPlayer, char currentSymbol) {
+
+    //TODO: implement resume LOGIC
 }

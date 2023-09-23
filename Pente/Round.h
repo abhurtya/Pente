@@ -11,9 +11,10 @@
 
 class Round {
 public:
-    Round(Player* human, Player* computer);
+    Round(Player* human, Player* computer );
+    Round(Player* human, Player* computer, const Board& loadedBoard);
     std::pair<int,int> play();
-    std::pair<int, int> resume();
+    std::pair<int, int> resume(Player* currentPlayer, char currentSymbol);
 
 
 private:
