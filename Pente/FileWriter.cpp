@@ -9,7 +9,7 @@ bool FileWriter::saveGame(const Board* board, const Player* human, const Player*
     }
 
     outFile << "Board:\n";
-    for (int i = 0; i < 19; ++i) {
+    for (int i = 18; i >=0; --i) {
         for (int j = 0; j < 19; ++j) {
             outFile << board->getCell(i, j);
         }
