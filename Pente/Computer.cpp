@@ -1,24 +1,17 @@
 #include "computer.h"
 
 #include <iostream>
-#include <cstdlib> // For random move
-#include <ctime> // For seeding random number generator
 
-void Computer::play(Board& board) {
-    std::srand(std::time(nullptr));
-    int x, y;
+void Computer::play(Board& board, char symbol) {
 
-    do {
-         x = std::rand() % 19;
-         y = std::rand() % 19;
-    } while (!board.isValidMove(x, y));
-
-    char column = 'A' + y;  
-    int row = x+1;  
+    std::pair<int, int> bestMove = strategy(board, symbol);
+    
+    char column = 'A' + bestMove.second;  
+    int row = bestMove.first+1;  
 
     std::cout << "Computer chose position: " << column << row << std::endl;
  
-    setLocation(x, y);
+    setLocation(bestMove.first, bestMove.second);
 
 }
 

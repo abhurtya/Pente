@@ -8,7 +8,7 @@ public:
     virtual ~Player() {}
 
     // Pure virtual function
-    virtual void play(Board& board) = 0;
+    virtual void play(Board& board, char symbol) = 0;
     virtual std::pair<int, int> getLocation() const = 0;
     virtual std::string getPlayerType() const = 0;
 
@@ -23,4 +23,8 @@ public:
 private:
     int points = 0;
     int captures = 0;
+
+protected:
+    virtual std::pair<int, int> strategy(const Board& board, char symbol);
+
 };

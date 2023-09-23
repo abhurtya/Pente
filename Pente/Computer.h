@@ -4,7 +4,7 @@
 
 class Computer : public Player {
 public:
-    void play(Board& board) override;
+    void play(Board& board, char symbol) override;
     std::pair<int, int> getLocation() const override;
     void setLocation(int x, int y);
     std::string getPlayerType() const override { return "Computer"; }

@@ -59,7 +59,7 @@ char Round::determineFirstPlayer() {
 
 void Round::takeTurn(Player* currentPlayer, char symbol) {
 
-    currentPlayer->play(board);
+    currentPlayer->play(board,symbol);
     std::pair<int, int> location = currentPlayer->getLocation();
     int x = location.first;
     int y = location.second;
@@ -73,7 +73,6 @@ void Round::takeTurn(Player* currentPlayer, char symbol) {
 
     if (userInput == "quit") {
         FileWriter writer;
-
 
         std::string nextPlayer = (currentPlayer->getPlayerType() == "Human") ? "Computer" : "Human";
         //symbol is current symbol, so must save opposite symbol
