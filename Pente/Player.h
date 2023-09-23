@@ -17,8 +17,6 @@ public:
 
     void addPoints(int p) { points += p; }
     void addCaptures() { captures++; }
-    void setPoints(int p) { points = p; }
-    void setCaptures(int c) { captures = c; }
 
 private:
     int points = 0;

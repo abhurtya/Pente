@@ -4,7 +4,8 @@
 #include "Tournament.h"
 #include "Human.h"
 #include "Computer.h"
-#include "FileReader.h"
+//#include "Board.h"
+//#include "BoardView.h"
 
 void displayIntro() {
     std::cout << "=====================================\n";
@@ -12,10 +13,6 @@ void displayIntro() {
     std::cout << "||          Let's Play             ||\n";
     std::cout << "||                                 ||\n";
     std::cout << "||             PENTE               ||\n";
-    std::cout << "||                                 ||\n";
-    std::cout << "||            MENU OPTION          ||\n";
-    std::cout << "||          1) Start new game      ||\n";
-    std::cout << "||          2) Load  game          ||\n";
     std::cout << "||                                 ||\n";
     std::cout << "=====================================\n";
 }
@@ -28,35 +25,14 @@ int main()
     //  // Implement sleep to Wait for 1 second
     //std::cout << "Get ready...\n";
     //// Implement sleep to Wait for 1 second
-    displayIntro();
-    std::cout << "Get ready...\n";
+    //displayIntro();
+    //std::cout << "Get ready...\n";
 
-    int option;
-    std::cout << "Enter your option: ";
-    std::cin >> option;
 
     Player* human = new Human();
     Player* computer = new Computer();
     Tournament t(human, computer);
-    /*t.startGame();*/
-
-    if (option == 1) {
-        t.startGame();
-    }
-    else if (option == 2) {
-        FileReader reader;
-        Board loadedBoard;
-        std::string nextPlayer;
-        char nextPlayerSymbol;
-        if (reader.loadGame(loadedBoard, human, computer, nextPlayer, nextPlayerSymbol)) {
-            std::cout << "Game loaded successfully!\n\n";
-            t.resumeGame(loadedBoard, human, computer, nextPlayer, nextPlayerSymbol);
-        }
-        else {
-            std::cout << "Failed to load the game!\n";
-        }
-    }
-
+    t.startGame();
 
     delete human;
     delete computer;
@@ -64,3 +40,16 @@ int main()
 
      return 0;
 }
+
+// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
+// Debug program: F5 or Debug > Start Debugging menu
+
+// Tips for Getting Started: 
+//   1. Use the Solution Explorer window to add/manage files
+//   2. Use the Team Explorer window to connect to source control
+//   3. Use the Output window to see build output and other messages
+//   4. Use the Error List window to view errors
+//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
+//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
+
+
