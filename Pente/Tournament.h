@@ -19,4 +19,8 @@ private:
 	int totalComputerPoints;
 	int roundNum;
 
+	void announceTournamentWinner();
+	bool askUserPlay();
+	void playRound(Player* human, Player* computer, Board* loadedBoard = nullptr, std::string nextPlayerName = "", char nextPlayerSymbol = ' ');
+
 };

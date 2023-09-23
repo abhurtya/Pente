@@ -76,7 +76,8 @@ void Round::takeTurn(Player* currentPlayer, char symbol) {
 
 
         std::string nextPlayer = (currentPlayer->getPlayerType() == "Human") ? "Computer" : "Human";
-        std::string nextPlayerStone = (symbol == 'W') ? "White" : "Black";
+        //symbol is current symbol, so must save opposite symbol
+        std::string nextPlayerStone = (symbol == 'W') ? "Black" : "White";
         if (writer.saveGame(&board, humanPlayer, computerPlayer, nextPlayer, nextPlayerStone)) {
             std::cout << "Game saved successfully!" << std::endl;
             //mark endRound member flag true
@@ -219,6 +220,34 @@ void Round::updateScore(int points, Player* currentPlayer) {
 
 }
 
+//currentPlayer parameter =>passed by reference  so that it can be modified.
+void Round::playGame(Player*& currentPlayer, char& currentSymbol) {
+    do {
+        takeTurn(currentPlayer, currentSymbol);
+
+        if (checkForCapture(currentSymbol, currentPlayer)) {
+            //updateScore();
+        }
+
+        if (checkForWin(currentSymbol, currentPlayer)) {
+            //updateScore();
+            break;
+        }
+
+        // Swap current player and symbol
+
+        if (currentPlayer == humanPlayer) {
+            currentPlayer = computerPlayer;
+
+        }
+        else {
+            currentPlayer = humanPlayer;
+
+        }
+        currentSymbol = (currentSymbol == 'W') ? 'B' : 'W';
+    } while (!checkForEndOfRound());
+}
+
 std::pair<int, int> Round::play() {
 
     /*board.displayBoard();*/
@@ -236,34 +265,7 @@ std::pair<int, int> Round::play() {
     }
 
 
-    do {
-        takeTurn(currentPlayer, currentSymbol);
-
-
-
-        if (checkForCapture(currentSymbol, currentPlayer)) {
-
-            //updateScore();
-        }
-
-        if (checkForWin(currentSymbol, currentPlayer)) {
-            //updateScore();
-
-            return std::make_pair(humanPlayer->getPoints(), computerPlayer->getPoints());
-        }
-
-        // Swap current player and symbol
-
-        if (currentPlayer == humanPlayer) {
-            currentPlayer = computerPlayer;
-
-        }
-        else {
-            currentPlayer = humanPlayer;
-
-        }
-        currentSymbol = (currentSymbol == 'W') ? 'B' : 'W';
-    } while (!checkForEndOfRound());
+    playGame(currentPlayer, currentSymbol);
 
     return std::make_pair(humanPlayer->getPoints(), computerPlayer->getPoints());
 }
@@ -271,7 +273,7 @@ std::pair<int, int> Round::play() {
 
 std::pair<int, int> Round::resume(Player* currentPlayer, char currentSymbol) {
 
-    //TODO: implement resume LOGIC
+    playGame(currentPlayer, currentSymbol);
 
     return std::make_pair(humanPlayer->getPoints(), computerPlayer->getPoints());
 }

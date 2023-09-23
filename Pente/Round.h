@@ -34,4 +34,5 @@ private:
     bool checkForCapture(char symbol, Player* currentPlayer);
     bool checkForCaptureDirection(int x, int y, int dx, int dy, char symbol, std::pair<int, int>& capture1, std::pair<int, int>& capture2);
     void updateScore(int points, Player* currentPlayer);
+    void playGame(Player*& currentPlayer, char& currentSymbol);
 };
