@@ -26,5 +26,8 @@ private:
 
 protected:
     virtual std::pair<int, int> strategy(const Board& board, char symbol);
+    std::pair<int, int> firstMoveStrategy() const;
+    std::pair<int, int> secondMoveStrategy() const;
+
 
 };

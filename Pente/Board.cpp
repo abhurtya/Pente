@@ -32,7 +32,38 @@ char Board::getCell(int x, int y) const {
 	return ' '; // Return a blank if the index is out of range
 }
 
-void Board::displayBoard() {
+
+// 0 if no moves made, 1 if first move made, -1 if moves >=2
+int Board::checkFirstMoveSecondMove(char symbol) const {
+	int count = 0;
+	for (const auto& row : grid) {
+		for (char cell : row) {
+			if (cell == symbol) {
+				count++;
+				if (count > 1) return -1; // More than one move made, return early
+			}
+		}
+	}
+	return count; // Will return 0 if no moves, 1 if one move
+}
+
+int Board:: countConsecutiveStones(int x, int y, int dx, int dy, char symbol) const {
+	int count = 0;
+	for (int i = 1; i < 5; ++i) {
+		int newX = x + i * dx;
+		int newY = y + i * dy;
+
+		if (newX < 0 || newX >= 19 || newY < 0 || newY >= 19 || getCell(newX, newY) != symbol) {
+			break;
+		}
+
+		++count;
+	}
+	return count;
+}
+
+
+void Board::displayBoard() const {
 
 	std::cout << "=============================" << std::endl;
 

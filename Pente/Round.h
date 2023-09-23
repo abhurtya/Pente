@@ -18,10 +18,10 @@ public:
 
 
 private:
-    Board board;
-    Player* humanPlayer;
-    Player* computerPlayer;
-    bool endRound = false;
+    Board m_board;
+    Player* m_humanPlayer;
+    Player* m_computerPlayer;
+    bool m_endRound = false;
 
 
     char determineFirstPlayer();

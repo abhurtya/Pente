@@ -2,13 +2,11 @@
 #include <iostream>
 
 Tournament::Tournament(Player* human, Player* computer)
-    : human(human), computer(computer), totalHumanPoints(0), roundNum(0), totalComputerPoints(0) {}
-
-
+    : m_human(human), m_computer(computer), m_totalHumanPoints(0), m_roundNum(0), m_totalComputerPoints(0) {}
 
 void Tournament::startGame() {
     do {
-        playRound(human, computer);
+        playRound(m_human, m_computer);
     } while (askUserPlay());
     announceTournamentWinner();
 }
@@ -19,6 +17,7 @@ void Tournament::resumeGame(Board& loadedBoard, Player* human, Player* computer,
     } while (askUserPlay());
     announceTournamentWinner();
 }
+
 bool Tournament::askUserPlay() {
     char continuePlaying;
     std::cout << "Do you wanna play another round? (y/n): ";
@@ -27,10 +26,10 @@ bool Tournament::askUserPlay() {
 }
 
 void Tournament::announceTournamentWinner() {
-    if (totalHumanPoints > totalComputerPoints) {
+    if (m_totalHumanPoints > m_totalComputerPoints) {
         std::cout << "Human wins the tournament!\n";
     }
-    else if (totalComputerPoints > totalHumanPoints) {
+    else if (m_totalComputerPoints > m_totalHumanPoints) {
         std::cout << "Computer wins the tournament!\n";
     }
     else {
@@ -38,15 +37,11 @@ void Tournament::announceTournamentWinner() {
     }
 }
 
-
-//playRound() handles the logic for both startingand resuming games
 void Tournament::playRound(Player* human, Player* computer, Board* loadedBoard, std::string nextPlayerName, char nextPlayerSymbol) {
-   
     std::pair<int, int> roundPoints;
 
     if (loadedBoard) {
-
-        Round round(human, computer,*loadedBoard);
+        Round round(human, computer, *loadedBoard);
         Player* currentPlayer = (nextPlayerName == "Human") ? human : computer;
         roundPoints = round.resume(currentPlayer, nextPlayerSymbol);
     }
@@ -55,9 +50,9 @@ void Tournament::playRound(Player* human, Player* computer, Board* loadedBoard, 
         roundPoints = round.play();
     }
 
-    totalHumanPoints += roundPoints.first;
-    totalComputerPoints += roundPoints.second;
+    m_totalHumanPoints += roundPoints.first;
+    m_totalComputerPoints += roundPoints.second;
 
     std::cout << "Points this round: Human " << roundPoints.first << " - " << roundPoints.second << " Computer\n";
-    std::cout << "Total Score: Human " << totalHumanPoints << " - " << totalComputerPoints << " Computer\n";
+    std::cout << "Total Score: Human " << m_totalHumanPoints << " - " << m_totalComputerPoints << " Computer\n";
 }
