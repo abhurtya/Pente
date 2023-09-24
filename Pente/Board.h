@@ -14,6 +14,9 @@ public:
 
 	int checkFirstMoveSecondMove(char symbol) const;
 	int countConsecutiveStones(int x, int y, int dx, int dy, char symbol) const;
+	bool isCapturePossible(int x, int y, int dx, int dy, char symbol) const;
+	bool captureStones(int x, int y, int dx, int dy, char symbol);
+
 
 private:
 

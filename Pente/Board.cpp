@@ -62,6 +62,37 @@ int Board:: countConsecutiveStones(int x, int y, int dx, int dy, char symbol) co
 	return count;
 }
 
+bool Board:: captureStones(int x, int y, int dx, int dy, char symbol)  {
+	if (isCapturePossible(x, y, dx, dy, symbol)) {
+		// Capture the pair
+		setCell(x + dx, y + dy, '*');
+		setCell(x + 2 * dx, y + 2 * dy, '*');
+
+		//converting into human representation
+		std::cout << "\n*******  Pairs Captured   ******  " << char('A' + (y + dy)) << (x + dx + 1) << " and " << char('A' + (y + 2 * dy)) << (x + 2 * dx + 1) << "!\n";
+
+		return true;
+	}
+	return false;
+}
+
+bool Board:: isCapturePossible(int x, int y, int dx, int dy, char symbol) const {
+	// early return if the index is out of bounds
+	for (int i = 1; i <= 3; ++i) {
+		int newX = x + i * dx;
+		int newY = y + i * dy;
+		if (newX < 0 || newX >= 19 || newY < 0 || newY >= 19) {
+			return false;
+		}
+	}
+
+	char first = getCell(x + dx, y + dy);
+	char second = getCell(x + 2 * dx, y + 2 * dy);
+	char third = getCell(x + 3 * dx, y + 3 * dy);
+
+	char opponentSymbol = (symbol == 'W') ? 'B' : 'W';
+	return (first == opponentSymbol && second == opponentSymbol && third == symbol);
+}
 
 void Board::displayBoard() const {
 

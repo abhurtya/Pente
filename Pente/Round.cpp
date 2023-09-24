@@ -16,7 +16,6 @@ Round::Round(Player* human, Player* computer, const Board& loadedBoard) {
     m_humanPlayer = human;
     m_computerPlayer = computer;
     m_board = loadedBoard;
-
 }
 
 
@@ -132,9 +131,6 @@ bool Round::checkForWin(char symbol, Player* currentPlayer) {
 }
 
 
-
-
-
 bool Round::checkForCapture(char symbol, Player* currentPlayer) {
 
     std::pair<int, int> lastMove = currentPlayer->getLocation();
@@ -143,9 +139,6 @@ bool Round::checkForCapture(char symbol, Player* currentPlayer) {
     char opponentSymbol = (symbol == 'W') ? 'B' : 'W';
     bool capture = false;
 
-    //to store co-ordinates of caputures , if any
-    std::pair<int, int> capture1, capture2;
-
     //  Checking in different possible directions
     std::array<std::pair<int, int>, 8> directions = { {{1, 0}, {0, 1}, {1, 1}, {1, -1}, {-1, 0}, {0, -1}, {-1, -1}, {-1, 1}} };
 
@@ -153,50 +146,18 @@ bool Round::checkForCapture(char symbol, Player* currentPlayer) {
         int dx = directions[i].first;
         int dy = directions[i].second;
 
-        if (checkForCaptureDirection(x, y, dx, dy, symbol, capture1, capture2)) {
+        if (m_board.captureStones(x, y, dx, dy, symbol)) {
             capture = true;
 
             currentPlayer->addCaptures();
             currentPlayer->addPoints(1);
 
-            std::cout << currentPlayer->getPlayerType() << " with symbol " << symbol << " captured a pair of"
-                << opponentSymbol << " stones at : " << char('A' + capture1.second) << (capture1.first + 1)
-                << " and " << char('A' + capture2.second) << (capture2.first + 1) << "!\n";
-
+            std::cout << currentPlayer->getPlayerType() << " with symbol " << symbol << " captured a pair of "
+                << opponentSymbol << " stones " << "!\n\n";
+             
         }
     }
     return capture;
-}
-
-bool Round::checkForCaptureDirection(int x, int y, int dx, int dy, char symbol, std::pair<int, int>& capture1, std::pair<int, int>& capture2) {
-
-    // early return if the index is out of bounds
-    for (int i = 1; i <= 3; ++i) {
-        int newX = x + i * dx;
-        int newY = y + i * dy;
-        if (newX < 0 || newX >= 19 || newY < 0 || newY >= 19) {
-            return false;
-        }
-    }
-
-    char first = m_board.getCell(x + dx, y + dy);
-    char second = m_board.getCell(x + 2 * dx, y + 2 * dy);
-    char third = m_board.getCell(x + 3 * dx, y + 3 * dy);
-
-    char opponentSymbol = (symbol == 'W') ? 'B' : 'W';
-    if (first == opponentSymbol && second == opponentSymbol && third == symbol) {
-
-        // Capture the pair
-        m_board.setCell(x + dx, y + dy, '*');
-        m_board.setCell(x + 2 * dx, y + 2 * dy, '*');
-
-        //updating them so that parent function can access them
-        capture1 = std::make_pair(x + dx, y + dy);
-        capture2 = std::make_pair(x + 2 * dx, y + 2 * dy);
-        return true;
-
-    }
-    return false;
 }
 
 void Round::updateScore(int points, Player* currentPlayer) {
