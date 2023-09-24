@@ -13,8 +13,34 @@ bool Board::isCellEmpty(int x, int y) const {
 	return getCell(x, y) == '*';
 }
 
-bool Board::isValidMove(int x, int y) const {
-	return x >= 0 && x < 19 && y >= 0 && y < 19 && isCellEmpty(x, y);
+bool Board::isValidMove(int x, int y, char symbol) const {
+	
+	if (x < 0 || x >= 19 || y < 0 || y >= 19 ) {
+		std::cout << "Invalid position " << std::endl;
+		return false;
+	}
+
+	if (!isCellEmpty(x, y)) {
+		std::cout << "Cell already occupied" << std::endl;
+		return false;
+	}
+
+	if (symbol == 'W' && checkFirstMoveSecondMove('W') == 0) {
+		if (!(x == 9 && y == 9)) {
+			std::cout << "First white move must be at J10" << std::endl;
+			return false;
+		}
+	}
+
+	if (symbol == 'W' && checkFirstMoveSecondMove('W') == 1) {
+		if (!(abs(x - 9) > 3 || abs(y - 9) > 3)) {
+			std::cout << "Second white move must be 3 step away from J10" << std::endl;
+			return false;
+		}
+	}
+
+	return true;
+	
 }
 
 bool Board::setCell(int x, int y, char symbol) {
@@ -96,29 +122,31 @@ bool Board:: isCapturePossible(int x, int y, int dx, int dy, char symbol) const 
 
 void Board::displayBoard() const {
 
-	std::cout << "=============================" << std::endl;
+	std::cout << "________________________________________________" << std::endl;
+	std::cout << "|                                              |" << std::endl;
 
 	//first line of output will be ___ABC....
-	std::cout << "||    "; 
+	std::cout << "|     "; 
 	for (char c = 'A'; c <= 'S'; ++c) {
-		std::cout << c;
+		std::cout << c <<" ";
 	}
-	std::cout << "  ||" << std::endl;
+	std::cout << "   |" << std::endl;
 
 
 	for (int row = 19; row >= 1; --row) {
-		std::cout << "|| ";
+		std::cout << "|  ";
 		if (row < 10) std::cout << ' ';
 		std::cout << row<<' ';
 		
 
 
 		for (const char& col : grid[row-1]) {
-			std::cout  <<col;
+			std::cout  <<col <<" ";
 
 		}
-		std::cout << "  ||" << std::endl;
+		std::cout << "   |" << std::endl;
 
 	}
-	std::cout << "=============================" << std::endl;
+	
+	std::cout << "|______________________________________________|" << std::endl;
 }

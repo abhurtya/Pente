@@ -10,7 +10,7 @@ public:
 	bool setCell(int x, int y, char symbol);
 	char getCell(int x, int y) const;
 	bool isCellEmpty(int x, int y) const;
-	bool isValidMove(int x, int y) const;
+	bool isValidMove(int x, int y , char symbol = ' ') const;
 
 	int checkFirstMoveSecondMove(char symbol) const;
 	int countConsecutiveStones(int x, int y, int dx, int dy, char symbol) const;
