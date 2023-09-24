@@ -27,7 +27,7 @@ private:
 protected:
     virtual std::pair<int, int> strategy(const Board& board, char symbol);
     std::pair<int, int> firstMoveStrategy() const;
-    std::pair<int, int> secondMoveStrategy() const;
+    std::pair<int, int> secondMoveStrategy(const Board& board) const;
     std::pair<int, int> checkWinStrategy(const Board& board, char symbol) const;
     std::pair<int, int> blockWinStrategy(const Board& board, char symbol) const;
     std::pair<int, int> checkCaptureStrategy(const Board& board, char symbol) const;
@@ -35,7 +35,5 @@ protected:
     std::pair<int, int> snakeStrategy(const Board& board, char symbol) const;
     std::pair<int, int> blockSnakeStrategy(const Board& board, char symbol) const;
 
-    
-
-
+    std::pair<int, int> mujiStrategy(const Board& board) const;
 };
