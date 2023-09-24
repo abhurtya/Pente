@@ -11,7 +11,13 @@ bool FileWriter::saveGame(const Board* board, const Player* human, const Player*
     outFile << "Board:\n";
     for (int i = 18; i >=0; --i) {
         for (int j = 0; j < 19; ++j) {
-            outFile << board->getCell(i, j);
+            if (board->getCell(i, j) == '*') {
+                outFile << 'O';
+            }
+            else {
+                outFile << board->getCell(i, j);
+            }
+            
         }
         outFile << "\n";
     }

@@ -13,7 +13,13 @@ bool FileReader::loadGame(Board& board, Player* human, Player* computer, std::st
     for (int i = 18; i >= 0; --i) {
         getline(inFile, line);
         for (int j = 0; j < 19; ++j) {
-            board.setCell(i, j, line[j]);
+            if (line[j] == 'O') {
+                board.setCell(i, j, '*');
+            }
+            else {
+                board.setCell(i, j, line[j]);
+            }
+            
         }
     }
 
