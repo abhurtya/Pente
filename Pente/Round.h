@@ -13,7 +13,7 @@ class Round {
 public:
     Round(Player* human, Player* computer);
     Round(Player* human, Player* computer, const Board& loadedBoard);
-    std::pair<int, int> play();
+    std::pair<int, int> play(char firstPlayerSymbol = ' ');
     std::pair<int, int> resume(Player* currentPlayer, char currentSymbol);
 
 
@@ -22,9 +22,8 @@ private:
     Player* m_humanPlayer;
     Player* m_computerPlayer;
     bool m_endRound = false;
-
-
-    char determineFirstPlayer();
+    
+    char tossHumanComputer();
     void takeTurn(Player* currentPlayer, char symbol);
     bool checkForEndOfRound();
 

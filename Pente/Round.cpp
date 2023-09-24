@@ -18,38 +18,19 @@ Round::Round(Player* human, Player* computer, const Board& loadedBoard) {
     m_board = loadedBoard;
 }
 
-
-char Round::determineFirstPlayer() {
+char Round::tossHumanComputer() {
     char firstPlayerSymbol;
-    // Initialized as true for first round, in the future it will be false for all instances
-    static bool isFirstRound = true;
-    bool isTossRequired = isFirstRound || (m_humanPlayer->getPoints() == m_computerPlayer->getPoints());
-
-    if (isTossRequired) {
-
-        if (isFirstRound) {
-            std::cout << "It's the first round. ";
-        }
-        else {
-            std::cout << "Both huamn and computer have same points.\n ";
-        }
+    
         int call;
-        std::cout << "Toss a coin! (Enter 1 for heads or 2 for tails):: ";
+        std::cout << "Toss a coin! ( 1 == heads, 2 == tails): ";
         std::cin >> call;
 
         std::srand(std::time(0));
         int tossResult = (std::rand() % 2) + 1;
-        std::cout << "The coin toss result is: " << (tossResult == 1 ? "Heads" : "Tails") << std::endl;
+        std::cout << "Coin toss result: " << (tossResult == 1 ? "Heads" : "Tails") << std::endl;
 
         firstPlayerSymbol = (tossResult == call) ? 'H' : 'C';
-        std::cout << ((firstPlayerSymbol == 'H') ? "You will play first." : "Computer will play first.") << std::endl;
-
-        isFirstRound = false;  // Reset for future rounds
-    }
-    else {
-        firstPlayerSymbol = ((m_humanPlayer->getPoints()) > (m_computerPlayer->getPoints())) ? 'H' : 'C';
-        std::cout << ((firstPlayerSymbol == 'H') ? "You have more points. You will play first." : "Computer has more points. Computer will play first.") << std::endl;
-    }
+        std::cout << ((firstPlayerSymbol == 'H') ? "You will play first." : "Computer will play first.") << std::endl << std::endl;
 
     return firstPlayerSymbol;
 }
@@ -194,13 +175,11 @@ void Round::playGame(Player*& currentPlayer, char& currentSymbol) {
     } while (!checkForEndOfRound());
 }
 
-std::pair<int, int> Round::play() {
+std::pair<int, int> Round::play(char firstPlayerSymbol) {
 
-    /*board.displayBoard();*/
-
-    char firstPlayerSymbol = determineFirstPlayer();
-
-
+    if (firstPlayerSymbol == ' ') {
+        firstPlayerSymbol = tossHumanComputer();
+    }
     char currentSymbol = 'W'; // The first player plays white stones.
     Player* currentPlayer;
     if (firstPlayerSymbol == 'H') {
@@ -209,7 +188,6 @@ std::pair<int, int> Round::play() {
     else {
         currentPlayer = m_computerPlayer;
     }
-
 
     playGame(currentPlayer, currentSymbol);
 
