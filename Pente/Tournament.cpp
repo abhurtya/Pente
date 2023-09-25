@@ -11,6 +11,10 @@ void Tournament::startGame() {
     } while (askUserPlay());
     announceTournamentWinner();
 }
+Tournament::~Tournament() {
+    delete m_human;
+    delete m_computer;
+}
 
 void Tournament::resumeGame(Board& loadedBoard, Player* human, Player* computer, std::string nextPlayerName, char nextPlayerSymbol) {
     m_totalHumanPoints = human->getPoints();
@@ -25,8 +29,20 @@ void Tournament::resumeGame(Board& loadedBoard, Player* human, Player* computer,
 
 bool Tournament::askUserPlay() {
     char continuePlaying;
-    std::cout << "Do you wanna play another round? (y/n): ";
-    std::cin >> continuePlaying;
+
+    while (true)
+    {
+        std::cout << "Do you wanna play another round? (y/n): ";
+        std::cin >> continuePlaying;
+        if (continuePlaying == 'y' || continuePlaying == 'Y' || continuePlaying == 'n' || continuePlaying == 'N') {
+            break;  // Exit loop if input valid
+        }
+        else {
+            std::cout << "Invalid input. Please enter 'y' for yes or 'n' for no" << std::endl;
+            std::cin.clear(); 
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');  // Discard invalid input
+        }
+    }
     return (continuePlaying == 'y' || continuePlaying == 'Y');
 }
 

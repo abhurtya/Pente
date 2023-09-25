@@ -21,16 +21,29 @@ Round::Round(Player* human, Player* computer, const Board& loadedBoard) {
 char Round::tossHumanComputer() {
     char firstPlayerSymbol;
     
-        int call;
+    int call;
+
+    while(true){
+
         std::cout << "Toss a coin! ( 1 == heads, 2 == tails): ";
         std::cin >> call;
 
-        std::srand(std::time(0));
-        int tossResult = (std::rand() % 2) + 1;
-        std::cout << "Coin toss result: " << (tossResult == 1 ? "Heads" : "Tails") << std::endl;
+        if (call == 1 || call == 2) {
+            break; // Exit the loop if the input is valid
+        }
+        else {
+            std::cout << "Invalid choice. Enter 1 for heads, 2 for tails" << std::endl;
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Discard invalid input
+        }
 
-        firstPlayerSymbol = (tossResult == call) ? 'H' : 'C';
-        std::cout << ((firstPlayerSymbol == 'H') ? "You will play first." : "Computer will play first.") << std::endl << std::endl;
+    } 
+    std::srand(std::time(0));
+    int tossResult = (std::rand() % 2) + 1;
+    std::cout << "Coin toss result: " << (tossResult == 1 ? "Heads" : "Tails") << std::endl;
+
+    firstPlayerSymbol = (tossResult == call) ? 'H' : 'C';
+    std::cout << ((firstPlayerSymbol == 'H') ? "You will play first." : "Computer will play first.") << std::endl << std::endl;
 
     return firstPlayerSymbol;
 }
@@ -47,6 +60,10 @@ void Round::takeTurn(Player* currentPlayer, char symbol) {
     m_board.setCell(x, y, symbol);
     m_board.displayBoard();
 
+    if (checkForCapture(symbol, currentPlayer)) {
+        m_board.displayBoard();
+    }
+
     std::string userInput;
     std::cout << "Enter 'quit' to save & exit game, or press any other key to continue: ";
     std::cin >> userInput;
@@ -59,7 +76,7 @@ void Round::takeTurn(Player* currentPlayer, char symbol) {
         std::string nextPlayerStone = (symbol == 'W') ? "Black" : "White";
         if (writer.saveGame(&m_board, m_humanPlayer, m_computerPlayer, nextPlayer, nextPlayerStone)) {
             std::cout << "Game saved successfully!" << std::endl;
-            //mark endRound member flag true
+            //mark endRound member flag truek0
             m_endRound = true;
 
         }
@@ -141,7 +158,7 @@ bool Round::checkForCapture(char symbol, Player* currentPlayer) {
     return capture;
 }
 
-void Round::updateScore(int points, Player* currentPlayer) {
+void Round::updateScore() {
 
 
 
@@ -149,18 +166,18 @@ void Round::updateScore(int points, Player* currentPlayer) {
 
 //currentPlayer parameter =>passed by reference  so that it can be modified.
 void Round::playGame(Player*& currentPlayer, char& currentSymbol) {
+
+    m_board.displayBoard();
+
     do {
+       
         takeTurn(currentPlayer, currentSymbol);
-
-        if (checkForCapture(currentSymbol, currentPlayer)) {
-            //updateScore();
-        }
-
+       
         if (checkForWin(currentSymbol, currentPlayer)) {
-            //updateScore();
+            m_board.displayBoard();
+            updateScore();
             break;
         }
-
         // Swap current player and symbol
 
         if (currentPlayer == m_humanPlayer) {

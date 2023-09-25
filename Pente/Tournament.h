@@ -8,6 +8,7 @@
 
 class Tournament {
 public:
+    ~Tournament();
     Tournament(Player* human, Player* computer);
     void startGame();
     void resumeGame(Board& loadedBoard, Player* human, Player* computer, std::string nextPlayerName, char nextPlayerSymbol);

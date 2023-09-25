@@ -23,22 +23,30 @@ void displayIntro() {
 
 int main()
 {
-
-    //std::cout << "Welcome to the game!\n";
-    //  // Implement sleep to Wait for 1 second
-    //std::cout << "Get ready...\n";
-    //// Implement sleep to Wait for 1 second
     displayIntro();
     std::cout << "Get ready...\n";
 
     int option;
-    std::cout << "Enter your option: ";
-    std::cin >> option;
+    while (true) {
 
+        std::cout << "Enter your option: ";
+        std::cin >> option;
+
+        if (option == 1 || option == 2) {
+            break; // Exit if input valid
+        }
+        else {
+            std::cout << "Invalid choice. \nEnter 1 for new game, 2 for load game" << std::endl;
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Discard invalid input
+        }
+
+    }
+    
+ 
     Player* human = new Human();
     Player* computer = new Computer();
     Tournament t(human, computer);
-    /*t.startGame();*/
 
     if (option == 1) {
         t.startGame();

@@ -1,7 +1,7 @@
 #include "Player.h"
 #include <iostream>
 
-std::pair<int, int> Player:: strategy(const Board& board, char symbol) {
+std::pair<int, int> Player:: strategy(const Board& board, char symbol) const{
 	
     //strategy for first move second move
     if (board.checkFirstMoveSecondMove(symbol) == 0 && symbol == 'W') {
@@ -34,6 +34,12 @@ std::pair<int, int> Player:: strategy(const Board& board, char symbol) {
         return bestMove;
     }
 
+    bestMove = blockCaptureStrategy(board, symbol);
+    if (bestMove.first != -1) {
+        std::cout << "used strategy block Capture\n";
+        return bestMove;
+    }
+
     bestMove = snakeStrategy(board, symbol);
     if (bestMove.first != -1) {
         std::cout << "used strategy snake\n";
@@ -60,12 +66,20 @@ std::pair<int, int> Player::firstMoveStrategy() const {
 }
 
 std::pair<int, int> Player::secondMoveStrategy(const Board& board) const {
-    std::pair<int, int> move;
+
+    //just using 4 up, down , left and right for now
+    std::array<std::pair<int, int>, 4> directions = { {{-4, 0}, {4, 0}, {0, -4}, {0, 4}} };
     
-    do {
-        move = mujiStrategy(board);
-    } while (abs(move.first - 9) < 3 && abs(move.second - 9) < 3);
-    return move;
+    //will randomly place stones in either dir.
+    for (int i = 0; i < 4; i++) {
+        int index = rand() % 4; 
+        int x = 9 + directions[index].first;
+        int y = 9 + directions[index].second;
+
+        if (board.isValidMove(x, y)) {
+            return { x, y };
+        }
+    }
 }
 
 std::pair<int, int> Player::mujiStrategy(const Board& board) const {
@@ -108,24 +122,33 @@ std::pair<int, int> Player::blockWinStrategy(const Board& board, char symbol) co
 }
 
 std::pair<int, int> Player::checkCaptureStrategy(const Board& board, char symbol) const {
-    
+    std::pair<int, int> bestMove = { -1, -1 };
     std::array<std::pair<int, int>, 8> directions = { {{1, 0}, {0, 1}, {1, 1}, {1, -1}, {-1, 0}, {0, -1}, {-1, -1}, {-1, 1}} };
-
+    
+    int maxCapturePossible = 0;
     for (int i = 0; i < 19; i++) {
         for (int j = 0; j < 19; j++) {
             if (board.getCell(i, j) == '*') {
+
+                //for all cells, check how many captrues possible
+                int capturePossible = 0;
                 for (const auto& direction : directions) {
                     int dx = direction.first;
                     int dy = direction.second;
 
                     if (board.isCapturePossible(i, j, dx, dy, symbol)) {
-                        return { i, j };
+                        capturePossible++;
                     }
+                }
+
+                if (capturePossible > maxCapturePossible) {
+                    maxCapturePossible = capturePossible;
+                    bestMove = { i, j };
                 }
             }
         }
     }
-    return { -1, -1 }; // cant find capture
+    return bestMove; // cant find capture then -1,-1
 
 }
 

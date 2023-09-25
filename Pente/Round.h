@@ -30,6 +30,6 @@ private:
     bool checkForWin(char symbol, Player* currentPlayer);
 
     bool checkForCapture(char symbol, Player* currentPlayer);
-    void updateScore(int points, Player* currentPlayer);
+    void updateScore();
     void playGame(Player*& currentPlayer, char& currentSymbol);
 };

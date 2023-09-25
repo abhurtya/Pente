@@ -1,10 +1,17 @@
 #include "FileWriter.h"
 #include <fstream>
+#include <iostream>
 
 bool FileWriter::saveGame(const Board* board, const Player* human, const Player* computer, const std::string nextPlayer, const std::string nextPlayerSymbol) {
 
-    std::ofstream outFile("game_save.txt");
+    
+    std::string filename;
+    std::cout << "Please enter FileName: \n";
+    std::cin >> filename;
+
+    std::ofstream outFile(filename);
     if (!outFile.is_open()) {
+        std::cout << "Failed to open file for writing.\n";
         return false;
     }
 

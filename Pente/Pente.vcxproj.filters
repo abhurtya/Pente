@@ -79,5 +79,17 @@
     <Text Include="game_save.txt">
       <Filter>Source Files</Filter>
     </Text>
+    <Text Include="case1.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="case2.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="case3.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="case4.txt">
+      <Filter>Source Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>

@@ -9,7 +9,7 @@ void Human::play(Board& board, char symbol) {
     int row;
 
     while (true) {
-        std::cout << "Enter coordinates to place a stone (eg: E5) or tye 'help': ";
+        std::cout << "Enter stone move(eg: E5) or tye 'help': ";
         std::cin >> input;
 
         // Providing help to the user
@@ -22,15 +22,22 @@ void Human::play(Board& board, char symbol) {
         }
 
         if (input.length() < 2) {
-            std::cout << "Invalid input. Please enter coordinates in correct format (e.g: E5)." << std::endl;
+            std::cout << "Invalid input. enter coordinates in correct format (e.g: E5)" << std::endl;
             continue;
         }
 
         column = std::toupper(input[0]);  
-        row = std::stoi(input.substr(1));
+        try {
+            row = std::stoi(input.substr(1));
+        }
+        catch (const std::exception&) {
+            std::cout << "Invalid input. Enter coordinates in the correct format (e.g: E5)." << std::endl;
+            continue;
+        }
+
 
         if (column < 'A' || column > 'S' || row < 1 || row > 19) {
-            std::cout << "Invalid input. Please enter coordinates in the correct format (eg: E5)." << std::endl;
+            std::cout << "Invalid input. Enter coordinates in the correct format (eg: E5)." << std::endl;
             continue;
         }
 
@@ -39,8 +46,8 @@ void Human::play(Board& board, char symbol) {
         x =  row-1;
 
         // Check if the move is valid
-        if (!board.isValidMove(x, y)) {
-            std::cout << "OOPS! Invalid move. That spot is already taken or out of bounds. Please choose another spot." << std::endl;
+        if (!board.isValidMove(x, y, symbol)) {
+            std::cout << "OOPS! Invalid move choose another spot." << std::endl;
             continue;
         }
 

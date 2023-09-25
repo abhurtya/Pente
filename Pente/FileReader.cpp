@@ -1,9 +1,15 @@
 #include "FileReader.h"
 #include <fstream>
+#include <iostream>
 
 bool FileReader::loadGame(Board& board, Player* human, Player* computer, std::string& nextPlayer, char& nextPlayerSymbol) {
-    std::ifstream inFile("game_save.txt");
+
+    std::string filename;
+    std::cout << "Please enter FileName: \n";
+    std::cin >> filename;
+    std::ifstream inFile(filename);
     if (!inFile.is_open()) {
+        std::cout << "Failed to open file for reading.\n";
         return false;
     }
 

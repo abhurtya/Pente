@@ -150,6 +150,10 @@
     <ClInclude Include="Tournament.h" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="case1.txt" />
+    <Text Include="case2.txt" />
+    <Text Include="case3.txt" />
+    <Text Include="case4.txt" />
     <Text Include="game_save.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
