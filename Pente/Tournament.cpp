@@ -21,6 +21,8 @@ void Tournament::startGame() {
 void Tournament::resumeGame(Board& loadedBoard, Player* human, Player* computer, std::string nextPlayerName, char nextPlayerSymbol) {
     m_totalHumanPoints = human->getPoints();
     m_totalComputerPoints = computer->getPoints();
+    std::cout << "Total tournament Score:\t Human " << m_totalHumanPoints << " - " << m_totalComputerPoints << " Computer\n";
+    std::cout << "Next Player: " << nextPlayerName << "\t Playing Symbol: " << nextPlayerSymbol << std::endl;
 
     playRound(human, computer, &loadedBoard, nextPlayerName, nextPlayerSymbol);
     while (askUserPlay()) {
@@ -96,6 +98,6 @@ void Tournament::playRound(Player* human, Player* computer, Board* loadedBoard, 
     m_totalHumanPoints += roundPoints.first;
     m_totalComputerPoints += roundPoints.second;
 
-    std::cout << "Points this round: Human " << roundPoints.first << " - " << roundPoints.second << " Computer\n";
-    std::cout << "Total Score: Human " << m_totalHumanPoints << " - " << m_totalComputerPoints << " Computer\n";
+    std::cout << "Points this round: \tHuman " << roundPoints.first << " - " << roundPoints.second << " Computer\n";
+    std::cout << "Total tournament Score:\t Human " << m_totalHumanPoints << " - " << m_totalComputerPoints << " Computer\n";
 }

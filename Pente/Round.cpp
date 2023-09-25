@@ -103,9 +103,7 @@ bool Round::checkForEndOfRound() const {
     return m_endRound;
 }
 
-bool Round::checkForWin(char symbol, Player* currentPlayer) const {
-
-    bool hasWon = false;
+bool Round::checkForFiveInARow(char symbol, Player* currentPlayer) const {
 
     std::pair<int, int> lastMove = currentPlayer->getLocation();
     int x = lastMove.first;
@@ -127,17 +125,21 @@ bool Round::checkForWin(char symbol, Player* currentPlayer) const {
 
             // 5 points to the player with 5 in a row
             currentPlayer->addPoints(5);
-            hasWon = true;
+           return true;
         }
     }
+    return false;
+}
 
+
+bool Round::checkForFiveCaptures(Player* currentPlayer) const {
     if (currentPlayer->getCaptures() >= 5) {
         std::cout << currentPlayer->getPlayerType() << " wins!--due to 5 captures of opponent stones" << std::endl;
-        hasWon = true;
+        return true;
     }
-
-    return hasWon;
+    return false;
 }
+
 
 
 bool Round::checkForCapture(char symbol, Player* currentPlayer)  {
@@ -169,29 +171,57 @@ bool Round::checkForCapture(char symbol, Player* currentPlayer)  {
     return capture;
 }
 
-void Round::updateScore() {
-    //5 points for at least 5 stones in a row	1 point for each pair of captured stones	1 point for four stones in a row
-    // 5 points to the player with 5 in a row
+void Round::calculateScore(char symbol, Player* player) {
+  
+    // 5 points for  5  in a row
+    // This is already handled in the checkForFiveInARow function, no need to do anything here
 
-    //currentPlayer->addPoints(5);
+    //1 points per capture
+    int capturePoints = player->getCaptures();
+    player->addPoints(capturePoints);
+
+    //1 points per 4 in a row
+
+    int fourInARowPoints = 0;
+    std::array<std::pair<int, int>, 4> directions = { {{1, 0}, {0, 1}, {1, 1}, {1, -1}} };
+
+    for (int i = 0; i < 19; ++i) {
+        for (int j = 0; j < 19; ++j) {
+            for (int k = 0; k < directions.size(); ++k) {
+                int dx = directions[k].first;
+                int dy = directions[k].second;
+                
+                int countForward = m_board.countConsecutiveStones(i, j, dx, dy, symbol);
+                int countBackward = m_board.countConsecutiveStones(i, j, -dx, -dy, symbol);
+                int totalCount = 1 + countForward + countBackward; 
+
+                if (totalCount == 4) {
+                   //DO SOMETHING I DONT KNOW WHAT TO DO
+                }
+            }
+        }
+    }
+
+    player->addPoints(fourInARowPoints);
+
 }
 
 //currentPlayer parameter =>passed by reference  so that it can be modified.
 void Round::playGame(Player*& currentPlayer, char& currentSymbol) {
 
     m_board.displayBoard();
+    
 
     do {
        
         takeTurn(currentPlayer, currentSymbol);
        
-        if (checkForWin(currentSymbol, currentPlayer)) {
+        if (checkForFiveInARow(currentSymbol, currentPlayer) || checkForFiveCaptures(currentPlayer)) {
             
-            updateScore();
             break;
         }
         // Swap current player and symbol
-
+        
         if (currentPlayer == m_humanPlayer) {
             currentPlayer = m_computerPlayer;
 
@@ -201,7 +231,15 @@ void Round::playGame(Player*& currentPlayer, char& currentSymbol) {
 
         }
         currentSymbol = (currentSymbol == 'W') ? 'B' : 'W';
+
     } while (!checkForEndOfRound());
+
+    //we are here means, game has ended
+    char opponentSymbol = (currentSymbol == 'W') ? 'B' : 'W';
+    Player* opponentPlayer = (currentPlayer == m_humanPlayer) ? m_computerPlayer : m_humanPlayer;
+
+    calculateScore(currentSymbol,currentPlayer);
+    calculateScore(opponentSymbol, opponentPlayer);
 }
 
 std::pair<int, int> Round::play(char firstPlayerSymbol) {

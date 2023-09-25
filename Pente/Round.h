@@ -26,10 +26,11 @@ private:
     char tossHumanComputer() const;
     void displayCaptures() const;
     bool checkForEndOfRound() const;
-    bool checkForWin(char symbol, Player* currentPlayer) const;
+    bool checkForFiveInARow(char symbol, Player* currentPlayer) const;
+    bool checkForFiveCaptures(Player* currentPlayer) const;
 
     bool checkForCapture(char symbol, Player* currentPlayer) ;
-    void updateScore();
+    void calculateScore(char symbol, Player* currentPlayer);
     void takeTurn(Player* currentPlayer, char symbol);
     void playGame(Player*& currentPlayer, char& currentSymbol);
 };
