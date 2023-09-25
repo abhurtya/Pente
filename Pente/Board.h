@@ -6,6 +6,7 @@ class Board {
 
 public:
 	Board();
+	~Board();
 	void displayBoard() const;
 	bool setCell(int x, int y, char symbol);
 	char getCell(int x, int y) const;

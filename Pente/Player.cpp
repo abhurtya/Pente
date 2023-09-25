@@ -1,6 +1,11 @@
 #include "Player.h"
 #include <iostream>
 
+Player::Player() : points(0), captures(0) {
+
+}
+
+
 std::pair<int, int> Player:: strategy(const Board& board, char symbol) const{
 	
     //strategy for first move second move
@@ -53,11 +58,11 @@ std::pair<int, int> Player:: strategy(const Board& board, char symbol) const{
     }
 
 
-    bestMove = mujiStrategy(board);
-    if (bestMove.first != -1) {
-        std::cout << "used Muji strategy\n";
-        return bestMove;
-    }
+    bestMove = randomStrategy(board);
+    
+    std::cout << "used Random strategy\n";
+    return bestMove;
+    
 }
 
 
@@ -80,9 +85,11 @@ std::pair<int, int> Player::secondMoveStrategy(const Board& board) const {
             return { x, y };
         }
     }
+
+    return { -1, -1 }; // should never reach here bc it's second move
 }
 
-std::pair<int, int> Player::mujiStrategy(const Board& board) const {
+std::pair<int, int> Player::randomStrategy(const Board& board) const {
     int x, y;
     do {
         x = std::rand() % 19;

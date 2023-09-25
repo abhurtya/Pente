@@ -4,6 +4,11 @@
 Tournament::Tournament(Player* human, Player* computer)
     : m_human(human), m_computer(computer), m_totalHumanPoints(0), m_roundNum(0), m_totalComputerPoints(0) {}
 
+
+Tournament::~Tournament() {
+    
+}
+
 void Tournament::startGame() {
    
     do {
@@ -11,10 +16,7 @@ void Tournament::startGame() {
     } while (askUserPlay());
     announceTournamentWinner();
 }
-Tournament::~Tournament() {
-    delete m_human;
-    delete m_computer;
-}
+
 
 void Tournament::resumeGame(Board& loadedBoard, Player* human, Player* computer, std::string nextPlayerName, char nextPlayerSymbol) {
     m_totalHumanPoints = human->getPoints();
@@ -27,7 +29,7 @@ void Tournament::resumeGame(Board& loadedBoard, Player* human, Player* computer,
     announceTournamentWinner();
 }
 
-bool Tournament::askUserPlay() {
+bool Tournament::askUserPlay() const {
     char continuePlaying;
 
     while (true)
@@ -46,7 +48,7 @@ bool Tournament::askUserPlay() {
     return (continuePlaying == 'y' || continuePlaying == 'Y');
 }
 
-void Tournament::announceTournamentWinner() {
+void Tournament::announceTournamentWinner() const {
     if (m_totalHumanPoints > m_totalComputerPoints) {
         std::cout << "Human wins the tournament!\n";
     }

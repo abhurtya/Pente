@@ -9,6 +9,11 @@ Board::Board() {
 	}
 }
 
+Board::~Board() {
+
+}
+
+
 bool Board::isCellEmpty(int x, int y) const {
 	return getCell(x, y) == '*';
 }
@@ -44,10 +49,14 @@ bool Board::isValidMove(int x, int y, char symbol) const {
 }
 
 bool Board::setCell(int x, int y, char symbol) {
-	
-		grid[x][y] = symbol;
 
-		return true;
+	if (x < 0 || x >= 19 || y < 0 || y >= 19) {
+		std::cout << "Error: Invalid position for setCell." << std::endl;
+		return false;
+	}
+	
+	grid[x][y] = symbol;
+	return true;
 	
 }
 

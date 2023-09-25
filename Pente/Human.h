@@ -4,6 +4,9 @@
 
 class Human : public Player {
 public:
+    Human(); 
+    virtual ~Human(); 
+
     void play(Board& board, char symbol) override;
     std::pair<int, int> getLocation() const override;
     void setLocation(int x, int y);

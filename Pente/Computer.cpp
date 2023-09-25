@@ -2,6 +2,12 @@
 
 #include <iostream>
 
+Computer::Computer() : location(-1, -1) {
+}
+
+Computer::~Computer() {
+}
+
 void Computer::play(Board& board, char symbol) {
 
     std::pair<int, int> bestMove = strategy(board, symbol);

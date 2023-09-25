@@ -2,6 +2,12 @@
 #include <iostream>
 #include <string> 
 
+Human::Human() : location(-1, -1) {
+}
+
+Human::~Human() {
+}
+
 void Human::play(Board& board, char symbol) {
     std::string input;
     int x, y;

@@ -52,11 +52,11 @@ int main()
         t.startGame();
     }
     else if (option == 2) {
-        FileReader reader;
+        
         Board loadedBoard;
         std::string nextPlayer;
         char nextPlayerSymbol;
-        if (reader.loadGame(loadedBoard, human, computer, nextPlayer, nextPlayerSymbol)) {
+        if (FileReader::loadGame(loadedBoard, human, computer, nextPlayer, nextPlayerSymbol)) {
             std::cout << "Game loaded successfully!\n\n";
             t.resumeGame(loadedBoard, human, computer, nextPlayer, nextPlayerSymbol);
         }

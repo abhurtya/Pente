@@ -23,13 +23,13 @@ private:
     Player* m_computerPlayer;
     bool m_endRound = false;
     
-    char tossHumanComputer();
-    void takeTurn(Player* currentPlayer, char symbol);
-    bool checkForEndOfRound();
+    char tossHumanComputer() const;
+    void displayCaptures() const;
+    bool checkForEndOfRound() const;
+    bool checkForWin(char symbol, Player* currentPlayer) const;
 
-    bool checkForWin(char symbol, Player* currentPlayer);
-
-    bool checkForCapture(char symbol, Player* currentPlayer);
+    bool checkForCapture(char symbol, Player* currentPlayer) ;
     void updateScore();
+    void takeTurn(Player* currentPlayer, char symbol);
     void playGame(Player*& currentPlayer, char& currentSymbol);
 };

@@ -5,6 +5,7 @@
 
 class Player {
 public:
+    Player();
     virtual ~Player() {}
 
     // Pure virtual function
@@ -21,8 +22,8 @@ public:
     void setCaptures(int c) { captures = c; }
 
 private:
-    int points = 0;
-    int captures = 0;
+    int points ;
+    int captures;
 
 protected:
     virtual std::pair<int, int> strategy(const Board& board, char symbol)const;
@@ -35,5 +36,5 @@ protected:
     std::pair<int, int> snakeStrategy(const Board& board, char symbol) const;
     std::pair<int, int> blockSnakeStrategy(const Board& board, char symbol) const;
 
-    std::pair<int, int> mujiStrategy(const Board& board) const;
+    std::pair<int, int> randomStrategy(const Board& board) const;
 };

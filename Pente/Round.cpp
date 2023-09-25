@@ -10,6 +10,10 @@
 Round::Round(Player* human, Player* computer) {
     m_humanPlayer = human;
     m_computerPlayer = computer;
+    m_humanPlayer->setCaptures(0);
+    m_computerPlayer->setCaptures(0);
+    m_humanPlayer->setPoints(0);
+    m_computerPlayer->setPoints(0);
 }
 
 Round::Round(Player* human, Player* computer, const Board& loadedBoard) {
@@ -18,7 +22,7 @@ Round::Round(Player* human, Player* computer, const Board& loadedBoard) {
     m_board = loadedBoard;
 }
 
-char Round::tossHumanComputer() {
+char Round::tossHumanComputer() const {
     char firstPlayerSymbol;
     
     int call;
@@ -48,24 +52,17 @@ char Round::tossHumanComputer() {
     return firstPlayerSymbol;
 }
 
-
+void Round::displayCaptures() const {
+    std::cout << "Captures -\t Human: " << m_humanPlayer->getCaptures() << ",\t Computer: " << m_computerPlayer->getCaptures() << std::endl;
+   
+}
 
 void Round::takeTurn(Player* currentPlayer, char symbol) {
 
-    currentPlayer->play(m_board,symbol);
-    std::pair<int, int> location = currentPlayer->getLocation();
-    int x = location.first;
-    int y = location.second;
-
-    m_board.setCell(x, y, symbol);
-    m_board.displayBoard();
-
-    if (checkForCapture(symbol, currentPlayer)) {
-        m_board.displayBoard();
-    }
+    
 
     std::string userInput;
-    std::cout << "Enter 'quit' to save & exit game, or press any other key to continue: ";
+    std::cout << "\nEnter 'quit' to save & exit game, or press any other key to continue: ";
     std::cin >> userInput;
 
     if (userInput == "quit") {
@@ -85,14 +82,28 @@ void Round::takeTurn(Player* currentPlayer, char symbol) {
         }
 
     }
+
+    currentPlayer->play(m_board, symbol);
+    std::pair<int, int> location = currentPlayer->getLocation();
+    int x = location.first;
+    int y = location.second;
+
+    m_board.setCell(x, y, symbol);
+    m_board.displayBoard();
+    displayCaptures();
+
+    if (checkForCapture(symbol, currentPlayer)) {
+        m_board.displayBoard();
+        displayCaptures();
+    }
 }
 
-bool Round::checkForEndOfRound() {
+bool Round::checkForEndOfRound() const {
 
     return m_endRound;
 }
 
-bool Round::checkForWin(char symbol, Player* currentPlayer) {
+bool Round::checkForWin(char symbol, Player* currentPlayer) const {
 
     bool hasWon = false;
 
@@ -129,7 +140,7 @@ bool Round::checkForWin(char symbol, Player* currentPlayer) {
 }
 
 
-bool Round::checkForCapture(char symbol, Player* currentPlayer) {
+bool Round::checkForCapture(char symbol, Player* currentPlayer)  {
 
     std::pair<int, int> lastMove = currentPlayer->getLocation();
     int x = lastMove.first;
@@ -148,7 +159,7 @@ bool Round::checkForCapture(char symbol, Player* currentPlayer) {
             capture = true;
 
             currentPlayer->addCaptures();
-            currentPlayer->addPoints(1);
+            
 
             std::cout << currentPlayer->getPlayerType() << " with symbol " << symbol << " captured a pair of "
                 << opponentSymbol << " stones " << "!\n\n";
@@ -159,9 +170,10 @@ bool Round::checkForCapture(char symbol, Player* currentPlayer) {
 }
 
 void Round::updateScore() {
+    //5 points for at least 5 stones in a row	1 point for each pair of captured stones	1 point for four stones in a row
+    // 5 points to the player with 5 in a row
 
-
-
+    //currentPlayer->addPoints(5);
 }
 
 //currentPlayer parameter =>passed by reference  so that it can be modified.
@@ -174,7 +186,7 @@ void Round::playGame(Player*& currentPlayer, char& currentSymbol) {
         takeTurn(currentPlayer, currentSymbol);
        
         if (checkForWin(currentSymbol, currentPlayer)) {
-            m_board.displayBoard();
+            
             updateScore();
             break;
         }

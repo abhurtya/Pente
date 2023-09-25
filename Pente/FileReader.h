@@ -4,5 +4,5 @@
 
 class FileReader {
 public:
-    bool loadGame(Board& board, Player* human, Player* computer, std::string& nextPlayer, char& nextPlayerSymbol);
+    static bool loadGame(Board& board, Player* human, Player* computer, std::string& nextPlayer, char& nextPlayerSymbol);
 };
