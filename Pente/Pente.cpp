@@ -7,24 +7,26 @@
 #include "FileReader.h"
 
 void displayIntro() {
-    std::cout << "=====================================\n";
-    std::cout << "||                                 ||\n";
-    std::cout << "||          Let's Play             ||\n";
-    std::cout << "||                                 ||\n";
-    std::cout << "||             PENTE               ||\n";
-    std::cout << "||                                 ||\n";
-    std::cout << "||            MENU OPTION          ||\n";
-    std::cout << "||          1) Start new game      ||\n";
-    std::cout << "||          2) Load  game          ||\n";
-    std::cout << "||                                 ||\n";
-    std::cout << "=====================================\n";
+    std::cout << "_____________________________________\n";
+    std::cout << "|                                   |\n";
+    std::cout << "|          Let's Play               |\n";
+    std::cout << "|                                   |\n";
+    std::cout << "|             PENTE                 |\n";
+    std::cout << "|                                   |\n";
+    std::cout << "|            MENU OPTION            |\n";
+    std::cout << "|          1) Start new game        |\n";
+    std::cout << "|          2) Load  game            |\n";
+    std::cout << "|                                   |\n";
+    std::cout << "|___________________________________|\n";
+    std::cout << "\nGet ready...\n";
 }
+
 
 
 int main()
 {
     displayIntro();
-    std::cout << "Get ready...\n";
+    
 
     int option;
     while (true) {
@@ -42,7 +44,6 @@ int main()
         }
 
     }
-    
  
     Player* human = new Human();
     Player* computer = new Computer();

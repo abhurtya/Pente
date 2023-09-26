@@ -15,7 +15,7 @@ void Human::play(Board& board, char symbol) {
     int row;
 
     while (true) {
-        std::cout << "Enter stone move(eg: E5) or tye 'help': ";
+        std::cout << "Enter your move or type 'help': ";
         std::cin >> input;
 
         // Providing help to the user

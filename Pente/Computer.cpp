@@ -17,6 +17,7 @@ void Computer::play(Board& board, char symbol) {
 
     std::cout << "Computer chose position: " << column << row << std::endl;
  
+    //validation done by the strategy
     setLocation(bestMove.first, bestMove.second);
 
 }

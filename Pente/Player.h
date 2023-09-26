@@ -35,6 +35,9 @@ protected:
     std::pair<int, int> blockCaptureStrategy(const Board& board, char symbol) const;
     std::pair<int, int> snakeStrategy(const Board& board, char symbol) const;
     std::pair<int, int> blockSnakeStrategy(const Board& board, char symbol) const;
-
+    std::pair<int, int> defaultStrategy(const Board& board, char symbol) const;
     std::pair<int, int> randomStrategy(const Board& board) const;
+
+    std::pair<int, int> findBestStrategy(const Board& board, char symbol) const;
+    bool isMoveOk(const std::pair<int, int>& move) const;
 };

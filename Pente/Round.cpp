@@ -62,11 +62,11 @@ void Round::takeTurn(Player* currentPlayer, char symbol) {
     
 
     std::string userInput;
-    std::cout << "\nEnter 'quit' to save & exit game, or press any key to continue: ";
+    std::cout << "\nEnter 'quit' to exit, or 'save' to save game and exit.\nPress any key to continue: ";
     std::cin >> userInput;
     std::cout<<std::endl;
 
-    if (userInput == "quit") {
+    if (userInput == "save") {
         FileWriter writer;
 
         std::string nextPlayer = (currentPlayer->getPlayerType() == "Human") ? "Computer" : "Human";
@@ -77,11 +77,17 @@ void Round::takeTurn(Player* currentPlayer, char symbol) {
             //mark endRound member flag truek0
             m_endRound = true;
 
+            exit(0);
+
         }
         else {
             std::cout << "Failed to save the game." << std::endl;
         }
 
+    }
+    else if (userInput == "quit") {
+        std::cout << "Exited without saving successfully" << std::endl;
+        exit(0);
     }
 
     currentPlayer->play(m_board, symbol);

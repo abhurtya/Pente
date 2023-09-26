@@ -12,57 +12,70 @@ std::pair<int, int> Player:: strategy(const Board& board, char symbol) const{
     if (board.checkFirstMoveSecondMove(symbol) == 0 && symbol == 'W') {
         std::cout << "used strategy firstmove\n";
         return firstMoveStrategy();
-    }
-
-    
-    else if (board.checkFirstMoveSecondMove(symbol) == 1 && symbol == 'W' && board.getCell(9,9) =='W') {
+    }else if (board.checkFirstMoveSecondMove(symbol) == 1 && symbol == 'W' && board.getCell(9,9) =='W') {
         std::cout << "used strategy second move\n";
         return secondMoveStrategy(board);
     }
 
+    std::pair<int, int> bestMove = findBestStrategy(board, symbol);
+    if (isMoveOk(bestMove)) {
+        return bestMove;
+    }
+    
+    bestMove = defaultStrategy(board, symbol);
+    if (isMoveOk(bestMove)) {
+        return bestMove;
+    }
+
+    return randomStrategy(board);
+    
+}
+
+std::pair<int, int> Player::findBestStrategy(const Board& board, char symbol) const {
     std::pair<int, int> bestMove;
+
     bestMove = checkWinStrategy(board, symbol);
-    if (bestMove.first != -1) {
-        std::cout << "used strategy checkWin\n";
+    if (isMoveOk(bestMove)) {
+        std::cout << "Strategy: Winning Move" << std::endl;
         return bestMove;
     }
 
     bestMove = blockWinStrategy(board, symbol);
-    if (bestMove.first != -1) {
-        std::cout << "used strategy blockWin\n";
-        return bestMove;
-    }
-
-    bestMove = checkCaptureStrategy(board, symbol);
-    if (bestMove.first != -1) {
-        std::cout << "used strategy checkCapture\n";
+    if (isMoveOk(bestMove)) {
+        std::cout << "Strategy: Block Opponent's Win" << std::endl;
         return bestMove;
     }
 
     bestMove = blockCaptureStrategy(board, symbol);
-    if (bestMove.first != -1) {
-        std::cout << "used strategy block Capture\n";
+    if (isMoveOk(bestMove)) {
+        std::cout << "Strategy: Defend Against Capture" << std::endl;
+        return bestMove;
+    }
+
+    bestMove = checkCaptureStrategy(board, symbol);
+    if (isMoveOk(bestMove)) {
+        std::cout << "Strategy: Capture Opponent's Stones" << std::endl;
         return bestMove;
     }
 
     bestMove = snakeStrategy(board, symbol);
-    if (bestMove.first != -1) {
-        std::cout << "used strategy snake\n";
+    if (isMoveOk(bestMove)) {
+        std::cout << "Strategy: Form a Chain of Stones" << std::endl;
         return bestMove;
     }
 
     bestMove = blockSnakeStrategy(board, symbol);
-    if (bestMove.first != -1) {
-        std::cout << "used strategy blockSnake\n";
+    if (isMoveOk(bestMove)) {
+        std::cout << "Strategy: Block Opponent's Chain" << std::endl;
         return bestMove;
     }
 
+    std::cout << "Strategy: Random Move (No specific strategy applied)" << std::endl;
+    return bestMove; // Default to random strategy
+}
 
-    bestMove = randomStrategy(board);
-    
-    std::cout << "used Random strategy\n";
-    return bestMove;
-    
+bool Player::isMoveOk(const std::pair<int, int>& move) const {
+    return move.first != -1;
 }
 
 
@@ -98,6 +111,33 @@ std::pair<int, int> Player::randomStrategy(const Board& board) const {
     return std::make_pair(x, y);
 }
 
+
+std::pair<int, int> Player::defaultStrategy(const Board& board,  char symbol) const {
+
+    char opponentSymbol = (symbol == 'W') ? 'B' : 'W';
+
+    for (int i = 0; i < 19; i++) {
+        for (int j = 0; j < 19; j++) {
+            if (board.getCell(i, j) == symbol) {
+                // Check adjacent cells for valid placement
+                std::array<std::pair<int, int>, 4> directions = { {{1, 0}, {0, 1}, {1, 1}, {1, -1}} };
+                for (const auto& direction : directions) {
+                    int dx = direction.first;
+                    int dy = direction.second;
+                    int x = i + dx;
+                    int y = j + dy;
+
+                    // Ensure that placing stone here won't get in immediate capture
+                    if (board.isValidMove(x, y) && !board.isCapturePossible(x, y, dx, dy, opponentSymbol) && !board.isCapturePossible(x, y, -dx, -dy, opponentSymbol)) {
+                        return { x, y };
+                    }
+                }
+            }
+        }
+    }
+    return { -1,-1 }; 
+}
+
 std::pair<int, int> Player::checkWinStrategy(const Board& board, char symbol) const {
     for (int i = 0; i < 19; i++) {
         for (int j = 0; j < 19; j++) {
@@ -120,8 +160,6 @@ std::pair<int, int> Player::checkWinStrategy(const Board& board, char symbol) co
     }
     return { -1, -1 }; // No winning move found
 }
-
-
 
 std::pair<int, int> Player::blockWinStrategy(const Board& board, char symbol) const {
     char opponentSymbol = (symbol == 'W') ? 'B' : 'W';
