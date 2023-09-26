@@ -27,9 +27,6 @@
     <ClCompile Include="Board.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="BoardView.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Computer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -56,9 +53,6 @@
     <ClInclude Include="Board.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BoardView.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Computer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -76,9 +70,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="game_save.txt">
-      <Filter>Source Files</Filter>
-    </Text>
     <Text Include="case1.txt">
       <Filter>Source Files</Filter>
     </Text>

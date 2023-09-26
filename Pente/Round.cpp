@@ -16,9 +16,11 @@ Round::Round(Player* human, Player* computer) {
     m_computerPlayer->setPoints(0);
 }
 
+//m_boardand loadedBoard are two separate objects.After the copy, they have the same state but are independent of each other
 Round::Round(Player* human, Player* computer, const Board& loadedBoard) {
     m_humanPlayer = human;
     m_computerPlayer = computer;
+    //uses default copy assignment operator
     m_board = loadedBoard;
 }
 
@@ -67,12 +69,11 @@ void Round::takeTurn(Player* currentPlayer, char symbol) {
     std::cout<<std::endl;
 
     if (userInput == "save") {
-        FileWriter writer;
-
+        
         std::string nextPlayer = (currentPlayer->getPlayerType() == "Human") ? "Computer" : "Human";
         //symbol is current symbol, so must save opposite symbol
         std::string nextPlayerStone = (symbol == 'W') ? "Black" : "White";
-        if (writer.saveGame(&m_board, m_humanPlayer, m_computerPlayer, nextPlayer, nextPlayerStone)) {
+        if (FileWriter::saveGame(&m_board, m_humanPlayer, m_computerPlayer, nextPlayer, nextPlayerStone)) {
             std::cout << "Game saved successfully!" << std::endl;
             //mark endRound member flag truek0
             m_endRound = true;

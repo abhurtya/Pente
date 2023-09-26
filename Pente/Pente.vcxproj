@@ -128,7 +128,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Board.cpp" />
-    <ClCompile Include="BoardView.cpp" />
     <ClCompile Include="Computer.cpp" />
     <ClCompile Include="FileReader.cpp" />
     <ClCompile Include="FileWriter.cpp" />
@@ -140,7 +139,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Board.h" />
-    <ClInclude Include="BoardView.h" />
     <ClInclude Include="Computer.h" />
     <ClInclude Include="FileReader.h" />
     <ClInclude Include="FileWriter.h" />
@@ -154,7 +152,6 @@
     <Text Include="case2.txt" />
     <Text Include="case3.txt" />
     <Text Include="case4.txt" />
-    <Text Include="game_save.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
