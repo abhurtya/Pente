@@ -27,6 +27,7 @@ private:
     void displayCaptures() const;
     bool checkForEndOfRound() const;
     bool checkForFiveInARow(char symbol, Player* currentPlayer) const;
+    int numFourInARow(char symbol);
     bool checkForFiveCaptures(Player* currentPlayer) const;
 
     bool checkForCapture(char symbol, Player* currentPlayer) ;

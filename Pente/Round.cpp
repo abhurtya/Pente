@@ -62,8 +62,9 @@ void Round::takeTurn(Player* currentPlayer, char symbol) {
     
 
     std::string userInput;
-    std::cout << "\nEnter 'quit' to save & exit game, or press any other key to continue: ";
+    std::cout << "\nEnter 'quit' to save & exit game, or press any key to continue: ";
     std::cin >> userInput;
+    std::cout<<std::endl;
 
     if (userInput == "quit") {
         FileWriter writer;
@@ -131,6 +132,42 @@ bool Round::checkForFiveInARow(char symbol, Player* currentPlayer) const {
     return false;
 }
 
+int Round::numFourInARow(char symbol) {
+    int fourInARow = 0;
+    std::array<std::pair<int, int>, 4> directions = { {{1, 0}, {0, 1}, {1, 1}, {1, -1}} };
+
+    for (int i = 0; i < 19; ++i) {
+        for (int j = 0; j < 19; ++j) {
+
+            if (m_board.getCell(i, j) != symbol) { continue; }
+
+            for (int k = 0; k < directions.size(); ++k) {
+                int dx = directions[k].first;
+                int dy = directions[k].second;
+                int count = 1; // counting the current cell itself
+                count += m_board.countConsecutiveStones(i, j, dx, dy, symbol);
+
+                if (count == 4) { 
+
+                    //MAKING SURE IT IS NOT A PART OF FIVE IN A ROW
+                    int nextX = i + 4 * dx;
+                    int nextY = j + 4 * dy;
+                    int prevX = i - dx;
+                    int prevY = j - dy;
+                    if ((nextX < 0 || nextX >= 19 || nextY < 0 || nextY >= 19 || m_board.getCell(nextX, nextY) != symbol) &&
+                        (prevX < 0 || prevX >= 19 || prevY < 0 || prevY >= 19 || m_board.getCell(prevX, prevY) != symbol)) {
+                        fourInARow++;
+                    }
+                    
+                }
+                
+            }
+        }
+    }
+
+   return fourInARow;
+}
+
 
 bool Round::checkForFiveCaptures(Player* currentPlayer) const {
     if (currentPlayer->getCaptures() >= 5) {
@@ -181,27 +218,7 @@ void Round::calculateScore(char symbol, Player* player) {
     player->addPoints(capturePoints);
 
     //1 points per 4 in a row
-
-    int fourInARowPoints = 0;
-    std::array<std::pair<int, int>, 4> directions = { {{1, 0}, {0, 1}, {1, 1}, {1, -1}} };
-
-    for (int i = 0; i < 19; ++i) {
-        for (int j = 0; j < 19; ++j) {
-            for (int k = 0; k < directions.size(); ++k) {
-                int dx = directions[k].first;
-                int dy = directions[k].second;
-                
-                int countForward = m_board.countConsecutiveStones(i, j, dx, dy, symbol);
-                int countBackward = m_board.countConsecutiveStones(i, j, -dx, -dy, symbol);
-                int totalCount = 1 + countForward + countBackward; 
-
-                if (totalCount == 4) {
-                   //DO SOMETHING I DONT KNOW WHAT TO DO
-                }
-            }
-        }
-    }
-
+    int fourInARowPoints = numFourInARow(symbol);
     player->addPoints(fourInARowPoints);
 
 }
