@@ -2,12 +2,34 @@
 #include <iostream>
 #include <string> 
 
+/**********************************************************************
+Function Name: Human (constructor)
+Purpose: Initialize the human player object with a default location (-1, -1)
+Parameters: None
+Return Value: None
+Assistance Received: None
+*******************************************************************/
 Human::Human() : location(-1, -1) {
 }
+
 
 Human::~Human() {
 }
 
+/**********************************************************************
+Function Name: play
+Purpose: Allow the human player to make a move on the board, with an option to get move suggestions
+Parameters:
+            board, a reference to the current board object
+            symbol, a character representing the human player's symbol ('W' or 'B').
+Return Value: None.
+Algorithm:
+            1) Continuously prompt the user for a move unles move valid
+            2) If "help" is entered, suggest a move based on strategy
+            3) Validate the entered move
+            4) If move is valid, update the board  Otherwise, notify the user and repeat.
+Assistance Received: None
+**************************************************************/
 void Human::play(Board& board, char symbol) {
     std::string input;
     int x, y;
@@ -17,6 +39,7 @@ void Human::play(Board& board, char symbol) {
     while (true) {
         std::cout << "Enter your move or type 'help': ";
         std::cin >> input;
+        std::cout << std::endl;
 
         // Providing help to the user
         if (input == "help") {

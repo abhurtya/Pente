@@ -2,6 +2,27 @@
 #include <fstream>
 #include <iostream>
 
+/**********************************************************************
+Function Name: saveGame
+Purpose: Save the current game state to a file, including board configuration and player details.
+Parameters:
+            board, a pointer to the current Board object
+            human, a pointer to the human player object
+            computer, a pointer to the computer player object.
+            nextPlayer, a  string indicating the next player's turn ("Human" or "Computer")
+            nextPlayerSymbol, a character representing the next player's symbol ('W' or 'B')
+Return Value: Returns true if the game data was successfully written, false otherwise
+Algorithm:
+            1) Get filename from user
+            2) Open file to write
+            3) Write board to file
+            4) Write  human, computer player stats in file
+            5) Write next player and symbol
+            6) Close the file
+Assistance Received: None
+******************************************************************************/
+
+
 bool FileWriter::saveGame(const Board* board, const Player* human, const Player* computer, const std::string nextPlayer, const std::string nextPlayerSymbol) {
 
     

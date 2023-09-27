@@ -1,4 +1,10 @@
-// Pente.cpp :  'main' pProgram execution, entry and exit  here
+
+/*********************************************
+* Name: Anish Bhurtyal						 *
+* Project:  Pente Game						 *
+* Class:  CMPS 366							 *
+* Date:  09/27/2023                          *
+**********************************************/
 
 #include <iostream>
 #include "Tournament.h"
@@ -21,13 +27,10 @@ void displayIntro() {
     std::cout << "\nGet ready...\n";
 }
 
-
-
 int main()
 {
     displayIntro();
     
-
     int option;
     while (true) {
 
@@ -66,10 +69,8 @@ int main()
         }
     }
 
-
     delete human;
     delete computer;
-
 
     return 0;
 }

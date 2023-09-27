@@ -2,6 +2,27 @@
 #include <fstream>
 #include <iostream>
 
+
+/**********************************************************************
+Function Name: loadGame
+Purpose: Load a saved game from a file, populating the board and player stats
+Parameters:
+            board, a reference to the Board object to be loaded
+            human, a pointer to the human player object 
+            computer, a pointer to the computer player object
+            nextPlayer, a reference to a string to indicate the next player's turn ("Human" or "Computer")
+            nextPlayerSymbol, a reference to a char to indicate the next player's symbol ('W' or 'B')
+Return Value: Returns true if the game data was successfully loaded, false otherwise
+Algorithm:
+            1) Get filename from user
+            2) Open file to read
+            3) Populate board
+            4) Set human, computer player stats
+            5) Identify next player and symbol
+            6) Close the file
+Assistance Received: None
+**********************************************************/
+
 bool FileReader::loadGame(Board& board, Player* human, Player* computer, std::string& nextPlayer, char& nextPlayerSymbol) {
 
     std::string filename;

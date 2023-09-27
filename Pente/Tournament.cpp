@@ -1,14 +1,34 @@
 #include "Tournament.h"
 #include <iostream>
 
+/* *********************************************************************
+Function Name: Tournament (constructor)
+Purpose: Constructor to initialize the Tournament class with human and computer players
+Parameters:
+    human, a pointer to the Player object representing the human player
+    computer, a pointer to the Player object representing the computer player
+Assistance Received: None
+**************************************/
 Tournament::Tournament(Player* human, Player* computer)
     : m_human(human), m_computer(computer), m_totalHumanPoints(0), m_roundNum(0), m_totalComputerPoints(0) {}
 
-
+/* *********************************************************************
+Function Name: ~Tournament (destructor)
+Purpose: Destructor for the Tournament class
+Assistance Received: None
+******************************************/
 Tournament::~Tournament() {
     
 }
 
+/* *********************************************************************
+Function Name: startGame
+Purpose: To start and manage the flow of the tournament until the user decides to end
+Algorithm:
+    1) Continuously play rounds until the user decides not to continue.
+    2) Announce the overall tournament winner
+Assistance Received: None
+*************************************************/
 void Tournament::startGame() {
    
     do {
@@ -17,7 +37,21 @@ void Tournament::startGame() {
     announceTournamentWinner();
 }
 
-
+/* *********************************************************************
+Function Name: resumeGame
+Purpose: To resume the tournament from a saved state
+Parameters:
+    loadedBoard, a reference to the Board object representing the saved game state
+    human, a pointer to the Player object representing the human player
+    computer, a pointer to the Player object representing the computer player
+    nextPlayerName, a string representing the name of the next player to play
+    nextPlayerSymbol, a character representing the symbol of the next player to play
+Algorithm:
+    1) Set the overall scores and display them.
+    2) Resume the current round and then continuously play new rounds until the user decides not to continue.
+    3) Announce the overall tournament winner.
+Assistance Received: None
+***************************************/
 void Tournament::resumeGame(Board& loadedBoard, Player* human, Player* computer, std::string nextPlayerName, char nextPlayerSymbol) {
     m_totalHumanPoints = human->getPoints();
     m_totalComputerPoints = computer->getPoints();
@@ -30,6 +64,15 @@ void Tournament::resumeGame(Board& loadedBoard, Player* human, Player* computer,
     }
     announceTournamentWinner();
 }
+
+/* *********************************************************************
+Function Name: askUserPlay
+Purpose: To ask the user if they wish to play another round
+Return Value: true if the user wants to play again, false otherwise
+Algorithm:
+    1) Prompt the user to continue playing or not.  Return user decision
+Assistance Received: None
+*************************************************/
 
 bool Tournament::askUserPlay() const {
     char continuePlaying;
@@ -50,6 +93,15 @@ bool Tournament::askUserPlay() const {
     return (continuePlaying == 'y' || continuePlaying == 'Y');
 }
 
+/* *********************************************************************
+Function Name: announceTournamentWinner
+Purpose: To display the winner of the tournament based on total points
+Algorithm:
+    1) Compare the total points of human and computer.
+    2) Announce the winner or declare a draw if points are equal
+Assistance Received: None
+***************************************************/
+
 void Tournament::announceTournamentWinner() const {
     if (m_totalHumanPoints > m_totalComputerPoints) {
         std::cout << "Human wins the tournament!\n";
@@ -62,8 +114,25 @@ void Tournament::announceTournamentWinner() const {
     }
 }
 
+/* *********************************************************************
+Function Name: playRound
+Purpose: To play a single round in the tournament, either start or resume
+Parameters:
+    human, a pointer to the Player object representing the human player
+    computer, a pointer to the Player object representing the computer player
+    loadedBoard, a pointer to the Board object representing the saved game state (null if not resuming)
+    nextPlayerName, a string representing the name of the next player to play (used if resuming)
+    nextPlayerSymbol, a character representing the symbol of the next player to play (used if resuming)
+Algorithm:
+    1) Reset players' points for a new round (remove after debugging).
+    2) Depending on whether we're resuming or not, initiate a round.
+    3) Calculate and display the scores after the round.
+Assistance Received: None
+********************************************************************* */
+
 void Tournament::playRound(Player* human, Player* computer, Board* loadedBoard, std::string nextPlayerName, char nextPlayerSymbol) {
 
+    //this part is unnecessary, b/c we reset points and captures for new round , delete after Debugging
     human->setPoints(0);
     computer->setPoints(0);
  
