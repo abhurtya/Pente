@@ -44,7 +44,10 @@ Assistance Received: None
 Round::Round(Player* human, Player* computer, const Board& loadedBoard) {
     m_humanPlayer = human;
     m_computerPlayer = computer;
+    m_humanPlayer->setPoints(0);
+    m_computerPlayer->setPoints(0);
     m_board = loadedBoard;
+
 }
 
 /* *********************************************************************
@@ -78,7 +81,7 @@ char Round::tossHumanComputer() const {
         }
 
     } 
-    std::srand(std::time(0));
+
     int tossResult = (std::rand() % 2) + 1;
     std::cout << "Coin toss result: " << (tossResult == 1 ? "Heads" : "Tails") << std::endl;
 

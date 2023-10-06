@@ -185,7 +185,6 @@ Assistance Received: None
 std::pair<int, int> Player::randomStrategy(const Board& board) const {
     int x, y;
     do {
-        std::srand(std::time(0));
         x = std::rand() % 19;
         y = std::rand() % 19;
     } while (!board.isValidMove(x, y));

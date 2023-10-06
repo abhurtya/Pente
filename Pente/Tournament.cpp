@@ -10,7 +10,7 @@ Parameters:
 Assistance Received: None
 **************************************/
 Tournament::Tournament(Player* human, Player* computer)
-    : m_human(human), m_computer(computer), m_totalHumanPoints(0), m_roundNum(0), m_totalComputerPoints(0) {}
+    : m_human(human), m_computer(computer), m_totalHumanPoints(0), m_totalComputerPoints(0) {}
 
 /* *********************************************************************
 Function Name: ~Tournament (destructor)
@@ -133,8 +133,8 @@ Assistance Received: None
 void Tournament::playRound(Player* human, Player* computer, Board* loadedBoard, std::string nextPlayerName, char nextPlayerSymbol) {
 
     //this part is unnecessary, b/c we reset points and captures for new round , delete after Debugging
-    human->setPoints(0);
-    computer->setPoints(0);
+ /*   human->setPoints(0);
+    computer->setPoints(0);*/
  
     std::pair<int, int> roundPoints;
 

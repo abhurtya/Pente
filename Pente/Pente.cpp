@@ -51,6 +51,7 @@ int main()
     Player* human = new Human();
     Player* computer = new Computer();
     Tournament t(human, computer);
+    std::srand(std::time(0));
 
     if (option == 1) {
         t.startGame();

@@ -18,7 +18,7 @@ private:
     Player* m_computer;
     int m_totalHumanPoints;
     int m_totalComputerPoints;
-    int m_roundNum;
+    
 
     void announceTournamentWinner() const;
     bool askUserPlay() const;
